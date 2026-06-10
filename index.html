@@ -148,27 +148,7 @@ Awaiting command...
 
 </main>
 
-<script>
-function runCommand(){
-
-    const command =
-        document.getElementById("command").value.trim();
-
-    const output =
-        document.getElementById("output");
-
-    if(command.length === 0){
-        output.innerText =
-            "No command provided.";
-        return;
-    }
-
-    output.innerText =
-        "Command accepted: " +
-        command +
-        "\n\nAURA Core not connected yet.";
-}
-</script>
+<script src="assets/js/core-command-engine.js"></script>
 
 </body>
 </html>
