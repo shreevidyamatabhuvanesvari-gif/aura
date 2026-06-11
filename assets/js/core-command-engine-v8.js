@@ -1,6 +1,6 @@
 const AURA = (() => {
 
-    const VERSION = "0.7.0";
+    const VERSION = "0.8.0";
 
     const SUPPORTED_COMMANDS = [
 
@@ -16,7 +16,11 @@ const AURA = (() => {
         "knowledgestats",
         "graph",
         "graphstats",
-        "graphinsights"
+        "graphinsights",
+        "reason",
+        "compare",
+        "related",
+        "insights"
     ];
 
     function normalize(input) {
@@ -50,24 +54,6 @@ const AURA = (() => {
                 action: "learn",
                 target:
                     trimmed.substring(6).trim()
-            };
-        }
-
-        if (cmd.startsWith("explain ")) {
-
-            return {
-                action: "explain",
-                target:
-                    trimmed.substring(8).trim()
-            };
-        }
-
-        if (cmd.startsWith("create ")) {
-
-            return {
-                action: "create",
-                target:
-                    trimmed.substring(7).trim()
             };
         }
 
@@ -105,7 +91,11 @@ const AURA = (() => {
             };
         }
 
-        if (cmd.startsWith("knowledge ")) {
+        if (
+            cmd.startsWith(
+                "knowledge "
+            )
+        ) {
 
             return {
 
@@ -167,9 +157,80 @@ const AURA = (() => {
                     parts[1],
 
                 target:
-                    parts
-                        .slice(2)
-                        .join(" ")
+                    parts.slice(2).join(" ")
+            };
+        }
+
+        if (
+            cmd.startsWith(
+                "compare "
+            )
+        ) {
+
+            const raw =
+                trimmed.substring(8).trim();
+
+            const parts =
+                raw.split(" ");
+
+            if (
+                parts.length !== 2
+            ) {
+
+                return {
+                    action:
+                        "invalid_compare"
+                };
+            }
+
+            return {
+
+                action:
+                    "compare",
+
+                nodeA:
+                    parts[0],
+
+                nodeB:
+                    parts[1]
+            };
+        }
+
+        if (
+            cmd.startsWith(
+                "related "
+            )
+        ) {
+
+            return {
+
+                action:
+                    "related",
+
+                target:
+                    trimmed.substring(8).trim()
+            };
+        }
+
+        if (
+            cmd ===
+            "reason"
+        ) {
+
+            return {
+                action:
+                    "reason"
+            };
+        }
+
+        if (
+            cmd ===
+            "insights"
+        ) {
+
+            return {
+                action:
+                    "insights"
             };
         }
 
@@ -195,24 +256,36 @@ const AURA = (() => {
             };
         }
 
-        if (cmd === "tasks") {
+        if (
+            cmd ===
+            "tasks"
+        ) {
 
             return {
-                action: "tasks"
+                action:
+                    "tasks"
             };
         }
 
-        if (cmd === "topics") {
+        if (
+            cmd ===
+            "topics"
+        ) {
 
             return {
-                action: "topics"
+                action:
+                    "topics"
             };
         }
 
-        if (cmd === "stats") {
+        if (
+            cmd ===
+            "stats"
+        ) {
 
             return {
-                action: "stats"
+                action:
+                    "stats"
             };
         }
 
@@ -320,10 +393,7 @@ const AURA = (() => {
                     false,
 
                 error:
-                    "Invalid import format",
-
-                expected:
-                    "Import Topic: Content"
+                    "Invalid import format"
             };
         }
 
@@ -341,10 +411,232 @@ const AURA = (() => {
                     false,
 
                 error:
-                    "Invalid graph format",
+                    "Invalid graph format"
+            };
+        }
 
-                expected:
-                    "Graph Source Relation Target"
+        if (
+            intent.action ===
+            "invalid_compare"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    false,
+
+                error:
+                    "Usage: Compare NodeA NodeB"
+            };
+        }
+
+        if (
+            intent.action ===
+            "reason"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                reasoning:
+                    ReasoningEngine.run()
+            };
+        }
+
+        if (
+            intent.action ===
+            "insights"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                insights:
+                    ReasoningEngine.generateInsights()
+            };
+        }
+
+        if (
+            intent.action ===
+            "related"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                related:
+                    ReasoningEngine
+                    .findRelatedNodes(
+                        intent.target
+                    )
+            };
+        }
+
+        if (
+            intent.action ===
+            "compare"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                comparison:
+                    ReasoningEngine
+                    .compareNodes(
+                        intent.nodeA,
+                        intent.nodeB
+                    )
+            };
+        }
+
+        if (
+            intent.action ===
+            "graphstats"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                graph:
+                    KnowledgeGraphEngine
+                    .stats()
+            };
+        }
+
+        if (
+            intent.action ===
+            "graphinsights"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                insights:
+                    KnowledgeGraphEngine
+                    .findCommonTargets()
+            };
+        }
+
+        if (
+            intent.action ===
+            "graph"
+        ) {
+
+            KnowledgeGraphEngine
+                .addRelation(
+                    intent.source,
+                    intent.relation,
+                    intent.target
+                );
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                relationAdded:
+                    true
+            };
+        }
+
+        if (
+            intent.action ===
+            "knowledge"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                entries:
+                    KnowledgeImportEngine
+                    .getEntries(
+                        intent.target
+                    )
+            };
+        }
+
+        if (
+            intent.action ===
+            "knowledgestats"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                stats:
+                    KnowledgeImportEngine
+                    .stats(
+                        intent.target
+                    )
+            };
+        }
+
+        if (
+            intent.action ===
+            "import"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                importResult:
+                    KnowledgeImportEngine
+                    .importText(
+                        intent.topic,
+                        intent.content,
+                        "command"
+                    )
             };
         }
 
@@ -400,164 +692,20 @@ const AURA = (() => {
                     true,
 
                 taskStats:
-                    TaskManager
-                    .getStats(),
+                    TaskManager.getStats(),
 
                 knowledgeStats:
-                    KnowledgeEngine
-                    .stats(),
+                    KnowledgeEngine.stats(),
 
                 graphStats:
-                    KnowledgeGraphEngine
-                    .stats()
-            };
-        }
-
-        if (
-            intent.action ===
-            "import"
-        ) {
-
-            return {
-
-                auraVersion:
-                    VERSION,
-
-                success:
-                    true,
-
-                importResult:
-                    KnowledgeImportEngine
-                    .importText(
-                        intent.topic,
-                        intent.content,
-                        "command"
-                    )
-            };
-        }
-
-        if (
-            intent.action ===
-            "knowledge"
-        ) {
-
-            return {
-
-                auraVersion:
-                    VERSION,
-
-                success:
-                    true,
-
-                entries:
-                    KnowledgeImportEngine
-                    .getEntries(
-                        intent.target
-                    )
-            };
-        }
-
-        if (
-            intent.action ===
-            "knowledgestats"
-        ) {
-
-            return {
-
-                auraVersion:
-                    VERSION,
-
-                success:
-                    true,
-
-                stats:
-                    KnowledgeImportEngine
-                    .stats(
-                        intent.target
-                    )
-            };
-        }
-
-        if (
-            intent.action ===
-            "graph"
-        ) {
-
-            KnowledgeGraphEngine
-                .addRelation(
-                    intent.source,
-                    intent.relation,
-                    intent.target
-                );
-
-            return {
-
-                auraVersion:
-                    VERSION,
-
-                success:
-                    true,
-
-                relationAdded:
-                    true,
-
-                relation: {
-
-                    source:
-                        intent.source,
-
-                    relation:
-                        intent.relation,
-
-                    target:
-                        intent.target
-                }
-            };
-        }
-
-        if (
-            intent.action ===
-            "graphstats"
-        ) {
-
-            return {
-
-                auraVersion:
-                    VERSION,
-
-                success:
-                    true,
-
-                graph:
-                    KnowledgeGraphEngine
-                    .stats()
-            };
-        }
-
-        if (
-            intent.action ===
-            "graphinsights"
-        ) {
-
-            return {
-
-                auraVersion:
-                    VERSION,
-
-                success:
-                    true,
-
-                insights:
-                    KnowledgeGraphEngine
-                    .findCommonTargets()
+                    KnowledgeGraphEngine.stats()
             };
         }
 
         const task =
             createTask(intent);
 
-        TaskManager
-            .addTask(task);
+        TaskManager.addTask(task);
 
         let learning =
             null;
@@ -591,7 +739,6 @@ const AURA = (() => {
     }
 
     return {
-
         execute
     };
 
@@ -618,7 +765,7 @@ function runCommand() {
         output.innerText =
             "No command provided.";
 
-            return;
+        return;
     }
 
     const result =
