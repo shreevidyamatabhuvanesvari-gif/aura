@@ -1,6 +1,6 @@
 const AURA = (() => {
 
-    const VERSION = "0.5.0";
+    const VERSION = "0.6.0";
 
     const SUPPORTED_COMMANDS = [
 
@@ -10,7 +10,10 @@ const AURA = (() => {
         "create",
         "tasks",
         "topics",
-        "stats"
+        "stats",
+        "import",
+        "knowledge",
+        "knowledgestats"
     ];
 
     function normalize(input) {
@@ -23,6 +26,9 @@ const AURA = (() => {
 
     function detectIntent(command) {
 
+        const trimmed =
+            command.trim();
+
         const cmd =
             normalize(command);
 
@@ -31,7 +37,7 @@ const AURA = (() => {
             return {
                 action: "learn",
                 target:
-                    command
+                    trimmed
                     .substring(6)
                     .trim()
             };
@@ -42,7 +48,7 @@ const AURA = (() => {
             return {
                 action: "learn",
                 target:
-                    command
+                    trimmed
                     .substring(6)
                     .trim()
             };
@@ -53,7 +59,7 @@ const AURA = (() => {
             return {
                 action: "explain",
                 target:
-                    command
+                    trimmed
                     .substring(8)
                     .trim()
             };
@@ -64,8 +70,78 @@ const AURA = (() => {
             return {
                 action: "create",
                 target:
-                    command
+                    trimmed
                     .substring(7)
+                    .trim()
+            };
+        }
+
+        if (cmd.startsWith("import ")) {
+
+            const raw =
+                trimmed
+                .substring(7)
+                .trim();
+
+            const separator =
+                raw.indexOf(":");
+
+            if (separator === -1) {
+
+                return {
+                    action: "invalid_import",
+                    target: raw
+                };
+            }
+
+            return {
+
+                action: "import",
+
+                topic:
+                    raw
+                    .substring(
+                        0,
+                        separator
+                    )
+                    .trim(),
+
+                content:
+                    raw
+                    .substring(
+                        separator + 1
+                    )
+                    .trim()
+            };
+        }
+
+        if (cmd.startsWith("knowledge ")) {
+
+            return {
+
+                action: "knowledge",
+
+                target:
+                    trimmed
+                    .substring(10)
+                    .trim()
+            };
+        }
+
+        if (
+            cmd.startsWith(
+                "knowledgestats "
+            )
+        ) {
+
+            return {
+
+                action:
+                    "knowledgestats",
+
+                target:
+                    trimmed
+                    .substring(15)
                     .trim()
             };
         }
@@ -116,7 +192,8 @@ const AURA = (() => {
                 intent.action,
 
             target:
-                intent.target,
+                intent.target ||
+                intent.topic,
 
             status:
                 "accepted"
@@ -181,6 +258,26 @@ const AURA = (() => {
 
         if (
             intent.action ===
+            "invalid_import"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success: false,
+
+                error:
+                    "Invalid import format",
+
+                expected:
+                    "Import Topic: Content"
+            };
+        }
+
+        if (
+            intent.action ===
             "tasks"
         ) {
 
@@ -234,6 +331,74 @@ const AURA = (() => {
                 knowledgeStats:
                     KnowledgeEngine
                     .stats()
+            };
+        }
+
+        if (
+            intent.action ===
+            "import"
+        ) {
+
+            const result =
+                KnowledgeImportEngine
+                .importText(
+                    intent.topic,
+                    intent.content,
+                    "command"
+                );
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success: true,
+
+                importResult:
+                    result
+            };
+        }
+
+        if (
+            intent.action ===
+            "knowledge"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success: true,
+
+                topic:
+                    intent.target,
+
+                entries:
+                    KnowledgeImportEngine
+                    .getEntries(
+                        intent.target
+                    )
+            };
+        }
+
+        if (
+            intent.action ===
+            "knowledgestats"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success: true,
+
+                stats:
+                    KnowledgeImportEngine
+                    .stats(
+                        intent.target
+                    )
             };
         }
 
