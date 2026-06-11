@@ -1,6 +1,6 @@
 const AURA = (() => {
 
-    const VERSION = "0.6.0";
+    const VERSION = "0.7.0";
 
     const SUPPORTED_COMMANDS = [
 
@@ -13,7 +13,10 @@ const AURA = (() => {
         "stats",
         "import",
         "knowledge",
-        "knowledgestats"
+        "knowledgestats",
+        "graph",
+        "graphstats",
+        "graphinsights"
     ];
 
     function normalize(input) {
@@ -37,9 +40,7 @@ const AURA = (() => {
             return {
                 action: "learn",
                 target:
-                    trimmed
-                    .substring(6)
-                    .trim()
+                    trimmed.substring(6).trim()
             };
         }
 
@@ -48,9 +49,7 @@ const AURA = (() => {
             return {
                 action: "learn",
                 target:
-                    trimmed
-                    .substring(6)
-                    .trim()
+                    trimmed.substring(6).trim()
             };
         }
 
@@ -59,9 +58,7 @@ const AURA = (() => {
             return {
                 action: "explain",
                 target:
-                    trimmed
-                    .substring(8)
-                    .trim()
+                    trimmed.substring(8).trim()
             };
         }
 
@@ -70,18 +67,14 @@ const AURA = (() => {
             return {
                 action: "create",
                 target:
-                    trimmed
-                    .substring(7)
-                    .trim()
+                    trimmed.substring(7).trim()
             };
         }
 
         if (cmd.startsWith("import ")) {
 
             const raw =
-                trimmed
-                .substring(7)
-                .trim();
+                trimmed.substring(7).trim();
 
             const separator =
                 raw.indexOf(":");
@@ -89,29 +82,26 @@ const AURA = (() => {
             if (separator === -1) {
 
                 return {
-                    action: "invalid_import",
-                    target: raw
+                    action:
+                        "invalid_import"
                 };
             }
 
             return {
 
-                action: "import",
+                action:
+                    "import",
 
                 topic:
-                    raw
-                    .substring(
+                    raw.substring(
                         0,
                         separator
-                    )
-                    .trim(),
+                    ).trim(),
 
                 content:
-                    raw
-                    .substring(
+                    raw.substring(
                         separator + 1
-                    )
-                    .trim()
+                    ).trim()
             };
         }
 
@@ -119,12 +109,11 @@ const AURA = (() => {
 
             return {
 
-                action: "knowledge",
+                action:
+                    "knowledge",
 
                 target:
-                    trimmed
-                    .substring(10)
-                    .trim()
+                    trimmed.substring(10).trim()
             };
         }
 
@@ -140,40 +129,100 @@ const AURA = (() => {
                     "knowledgestats",
 
                 target:
-                    trimmed
-                    .substring(15)
-                    .trim()
+                    trimmed.substring(15).trim()
+            };
+        }
+
+        if (
+            cmd.startsWith(
+                "graph "
+            )
+        ) {
+
+            const raw =
+                trimmed.substring(6).trim();
+
+            const parts =
+                raw.split(" ");
+
+            if (
+                parts.length < 3
+            ) {
+
+                return {
+                    action:
+                        "invalid_graph"
+                };
+            }
+
+            return {
+
+                action:
+                    "graph",
+
+                source:
+                    parts[0],
+
+                relation:
+                    parts[1],
+
+                target:
+                    parts
+                        .slice(2)
+                        .join(" ")
+            };
+        }
+
+        if (
+            cmd ===
+            "graphstats"
+        ) {
+
+            return {
+                action:
+                    "graphstats"
+            };
+        }
+
+        if (
+            cmd ===
+            "graphinsights"
+        ) {
+
+            return {
+                action:
+                    "graphinsights"
             };
         }
 
         if (cmd === "tasks") {
 
             return {
-                action: "tasks",
-                target: null
+                action: "tasks"
             };
         }
 
         if (cmd === "topics") {
 
             return {
-                action: "topics",
-                target: null
+                action: "topics"
             };
         }
 
         if (cmd === "stats") {
 
             return {
-                action: "stats",
-                target: null
+                action: "stats"
             };
         }
 
         return {
 
-            action: "unknown",
-            target: command
+            action:
+                "unknown",
+
+            target:
+                command
         };
     }
 
@@ -207,7 +256,8 @@ const AURA = (() => {
             auraVersion:
                 VERSION,
 
-            success: false,
+            success:
+                false,
 
             error:
                 "Unknown command",
@@ -266,13 +316,35 @@ const AURA = (() => {
                 auraVersion:
                     VERSION,
 
-                success: false,
+                success:
+                    false,
 
                 error:
                     "Invalid import format",
 
                 expected:
                     "Import Topic: Content"
+            };
+        }
+
+        if (
+            intent.action ===
+            "invalid_graph"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    false,
+
+                error:
+                    "Invalid graph format",
+
+                expected:
+                    "Graph Source Relation Target"
             };
         }
 
@@ -286,7 +358,8 @@ const AURA = (() => {
                 auraVersion:
                     VERSION,
 
-                success: true,
+                success:
+                    true,
 
                 tasks:
                     TaskManager
@@ -304,7 +377,8 @@ const AURA = (() => {
                 auraVersion:
                     VERSION,
 
-                success: true,
+                success:
+                    true,
 
                 topics:
                     KnowledgeEngine
@@ -322,7 +396,8 @@ const AURA = (() => {
                 auraVersion:
                     VERSION,
 
-                success: true,
+                success:
+                    true,
 
                 taskStats:
                     TaskManager
@@ -330,6 +405,10 @@ const AURA = (() => {
 
                 knowledgeStats:
                     KnowledgeEngine
+                    .stats(),
+
+                graphStats:
+                    KnowledgeGraphEngine
                     .stats()
             };
         }
@@ -339,23 +418,21 @@ const AURA = (() => {
             "import"
         ) {
 
-            const result =
-                KnowledgeImportEngine
-                .importText(
-                    intent.topic,
-                    intent.content,
-                    "command"
-                );
-
             return {
 
                 auraVersion:
                     VERSION,
 
-                success: true,
+                success:
+                    true,
 
                 importResult:
-                    result
+                    KnowledgeImportEngine
+                    .importText(
+                        intent.topic,
+                        intent.content,
+                        "command"
+                    )
             };
         }
 
@@ -369,10 +446,8 @@ const AURA = (() => {
                 auraVersion:
                     VERSION,
 
-                success: true,
-
-                topic:
-                    intent.target,
+                success:
+                    true,
 
                 entries:
                     KnowledgeImportEngine
@@ -392,13 +467,89 @@ const AURA = (() => {
                 auraVersion:
                     VERSION,
 
-                success: true,
+                success:
+                    true,
 
                 stats:
                     KnowledgeImportEngine
                     .stats(
                         intent.target
                     )
+            };
+        }
+
+        if (
+            intent.action ===
+            "graph"
+        ) {
+
+            KnowledgeGraphEngine
+                .addRelation(
+                    intent.source,
+                    intent.relation,
+                    intent.target
+                );
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                relationAdded:
+                    true,
+
+                relation: {
+
+                    source:
+                        intent.source,
+
+                    relation:
+                        intent.relation,
+
+                    target:
+                        intent.target
+                }
+            };
+        }
+
+        if (
+            intent.action ===
+            "graphstats"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                graph:
+                    KnowledgeGraphEngine
+                    .stats()
+            };
+        }
+
+        if (
+            intent.action ===
+            "graphinsights"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success:
+                    true,
+
+                insights:
+                    KnowledgeGraphEngine
+                    .findCommonTargets()
             };
         }
 
@@ -427,9 +578,11 @@ const AURA = (() => {
             auraVersion:
                 VERSION,
 
-            success: true,
+            success:
+                true,
 
-            memorySaved: true,
+            memorySaved:
+                true,
 
             task,
 
@@ -465,7 +618,7 @@ function runCommand() {
         output.innerText =
             "No command provided.";
 
-        return;
+            return;
     }
 
     const result =
