@@ -1,6 +1,6 @@
 const AURA = (() => {
 
-    const VERSION = "0.2.0";
+    const VERSION = "0.3.0";
 
     function normalize(input) {
 
@@ -63,6 +63,14 @@ const AURA = (() => {
             };
         }
 
+        if (cmd === "topics") {
+
+            return {
+                action: "topics",
+                target: null
+            };
+        }
+
         if (cmd === "stats") {
 
             return {
@@ -99,6 +107,20 @@ const AURA = (() => {
         };
     }
 
+    function registerKnowledge(intent) {
+
+        if (
+            intent.action !== "learn"
+        ) {
+            return null;
+        }
+
+        return KnowledgeEngine
+            .registerTopic(
+                intent.target
+            );
+    }
+
     function execute(command) {
 
         const intent =
@@ -122,6 +144,23 @@ const AURA = (() => {
         }
 
         if (
+            intent.action === "topics"
+        ) {
+
+            return {
+
+                auraVersion:
+                    VERSION,
+
+                success: true,
+
+                topics:
+                    KnowledgeEngine
+                    .listTopics()
+            };
+        }
+
+        if (
             intent.action === "stats"
         ) {
 
@@ -132,9 +171,13 @@ const AURA = (() => {
 
                 success: true,
 
-                stats:
+                taskStats:
                     TaskManager
-                    .getStats()
+                    .getStats(),
+
+                knowledgeStats:
+                    KnowledgeEngine
+                    .stats()
             };
         }
 
@@ -143,6 +186,11 @@ const AURA = (() => {
 
         TaskManager
             .addTask(task);
+
+        const knowledge =
+            registerKnowledge(
+                intent
+            );
 
         return {
 
@@ -153,7 +201,9 @@ const AURA = (() => {
 
             memorySaved: true,
 
-            task
+            task,
+
+            knowledge
         };
     }
 
