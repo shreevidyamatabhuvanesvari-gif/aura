@@ -1,6 +1,6 @@
 const AURA = (() => {
 
-    const VERSION = "0.4.0";
+    const VERSION = "0.5.0";
 
     const SUPPORTED_COMMANDS = [
 
@@ -123,22 +123,6 @@ const AURA = (() => {
         };
     }
 
-    function registerKnowledge(intent) {
-
-        if (
-            intent.action !==
-            "learn"
-        ) {
-
-            return null;
-        }
-
-        return KnowledgeEngine
-            .registerTopic(
-                intent.target
-            );
-    }
-
     function rejectUnknown(command) {
 
         return {
@@ -156,6 +140,27 @@ const AURA = (() => {
 
             supportedCommands:
                 SUPPORTED_COMMANDS
+        };
+    }
+
+    function processLearning(intent) {
+
+        const knowledge =
+            KnowledgeEngine
+            .registerTopic(
+                intent.target
+            );
+
+        const learningPlan =
+            LearningEngine
+            .createPlan(
+                intent.target
+            );
+
+        return {
+
+            knowledge,
+            learningPlan
         };
     }
 
@@ -238,10 +243,19 @@ const AURA = (() => {
         TaskManager
             .addTask(task);
 
-        const knowledge =
-            registerKnowledge(
-                intent
-            );
+        let learning =
+            null;
+
+        if (
+            intent.action ===
+            "learn"
+        ) {
+
+            learning =
+                processLearning(
+                    intent
+                );
+        }
 
         return {
 
@@ -254,7 +268,7 @@ const AURA = (() => {
 
             task,
 
-            knowledge
+            learning
         };
     }
 
