@@ -1,6 +1,17 @@
 const AURA = (() => {
 
-    const VERSION = "0.3.0";
+    const VERSION = "0.4.0";
+
+    const SUPPORTED_COMMANDS = [
+
+        "learn",
+        "study",
+        "explain",
+        "create",
+        "tasks",
+        "topics",
+        "stats"
+    ];
 
     function normalize(input) {
 
@@ -19,7 +30,8 @@ const AURA = (() => {
 
             return {
                 action: "learn",
-                target: command
+                target:
+                    command
                     .substring(6)
                     .trim()
             };
@@ -29,7 +41,8 @@ const AURA = (() => {
 
             return {
                 action: "learn",
-                target: command
+                target:
+                    command
                     .substring(6)
                     .trim()
             };
@@ -39,7 +52,8 @@ const AURA = (() => {
 
             return {
                 action: "explain",
-                target: command
+                target:
+                    command
                     .substring(8)
                     .trim()
             };
@@ -49,7 +63,8 @@ const AURA = (() => {
 
             return {
                 action: "create",
-                target: command
+                target:
+                    command
                     .substring(7)
                     .trim()
             };
@@ -90,7 +105,8 @@ const AURA = (() => {
 
         return {
 
-            id: crypto.randomUUID(),
+            id:
+                crypto.randomUUID(),
 
             timestamp:
                 new Date()
@@ -110,8 +126,10 @@ const AURA = (() => {
     function registerKnowledge(intent) {
 
         if (
-            intent.action !== "learn"
+            intent.action !==
+            "learn"
         ) {
+
             return null;
         }
 
@@ -121,13 +139,44 @@ const AURA = (() => {
             );
     }
 
+    function rejectUnknown(command) {
+
+        return {
+
+            auraVersion:
+                VERSION,
+
+            success: false,
+
+            error:
+                "Unknown command",
+
+            received:
+                command,
+
+            supportedCommands:
+                SUPPORTED_COMMANDS
+        };
+    }
+
     function execute(command) {
 
         const intent =
             detectIntent(command);
 
         if (
-            intent.action === "tasks"
+            intent.action ===
+            "unknown"
+        ) {
+
+            return rejectUnknown(
+                command
+            );
+        }
+
+        if (
+            intent.action ===
+            "tasks"
         ) {
 
             return {
@@ -144,7 +193,8 @@ const AURA = (() => {
         }
 
         if (
-            intent.action === "topics"
+            intent.action ===
+            "topics"
         ) {
 
             return {
@@ -161,7 +211,8 @@ const AURA = (() => {
         }
 
         if (
-            intent.action === "stats"
+            intent.action ===
+            "stats"
         ) {
 
             return {
