@@ -1,6 +1,6 @@
 const AURA = (() => {
 
-    const VERSION = "1.2.0";
+    const VERSION = "1.3.0";
 
     function normalize(text) {
 
@@ -79,7 +79,13 @@ const AURA = (() => {
             "knowledgegaps",
             "nextlearning",
             "weaktopics",
-            "learningscore"
+            "learningscore",
+
+            "help",
+            "commands",
+            "capabilities",
+            "categories",
+            "manifest"
         ];
 
         if (
@@ -94,6 +100,27 @@ const AURA = (() => {
                     lower,
 
                 payload: {}
+            };
+        }
+
+        if (
+            lower.startsWith(
+                "commandinfo "
+            )
+        ) {
+
+            return {
+
+                command:
+                    "commandinfo",
+
+                payload: {
+
+                    command:
+                        raw.substring(
+                            12
+                        ).trim()
+                }
             };
         }
 
