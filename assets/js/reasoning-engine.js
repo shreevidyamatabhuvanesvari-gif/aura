@@ -65,40 +65,56 @@ const ReasoningEngine = (() => {
             getGraph();
 
         const targetsA =
-            graph.edges
-                .filter(
-                    edge =>
-                        edge.source ===
-                        nodeA
+            [
+                ...new Set(
+
+                    graph.edges
+                        .filter(
+                            edge =>
+                                edge.source ===
+                                nodeA
+                        )
+                        .map(
+                            edge =>
+                                edge.target
+                        )
                 )
-                .map(
-                    edge =>
-                        edge.target
-                );
+            ];
 
         const targetsB =
-            graph.edges
-                .filter(
-                    edge =>
-                        edge.source ===
-                        nodeB
+            [
+                ...new Set(
+
+                    graph.edges
+                        .filter(
+                            edge =>
+                                edge.source ===
+                                nodeB
+                        )
+                        .map(
+                            edge =>
+                                edge.target
+                        )
                 )
-                .map(
-                    edge =>
-                        edge.target
-                );
+            ];
 
         const common =
-            targetsA.filter(
-                target =>
-                    targetsB.includes(
-                        target
+            [
+                ...new Set(
+
+                    targetsA.filter(
+                        target =>
+                            targetsB.includes(
+                                target
+                            )
                     )
-            );
+                )
+            ];
 
         return {
 
             nodeA,
+
             nodeB,
 
             commonConcepts:
