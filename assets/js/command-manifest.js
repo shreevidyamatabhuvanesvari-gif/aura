@@ -2,7 +2,7 @@ const CommandManifest = (() => {
 
     const MANIFEST = {
 
-        version: "1.1.0",
+        version: "1.2.0",
 
         generatedAt:
             new Date()
@@ -139,6 +139,20 @@ const CommandManifest = (() => {
                     "manifest",
                     "commandinfo"
                 ]
+            },
+
+            {
+                name: "Self Improvement",
+
+                commands: [
+
+                    "improve",
+                    "improvementplan",
+                    "improvementscore",
+                    "weakareas",
+                    "improvementactions",
+                    "selfimprovementsummary"
+                ]
             }
         ],
 
@@ -164,7 +178,9 @@ const CommandManifest = (() => {
 
             "Meta Learning",
 
-            "Self Description"
+            "Self Description",
+
+            "Autonomous Improvement"
         ]
     };
 
