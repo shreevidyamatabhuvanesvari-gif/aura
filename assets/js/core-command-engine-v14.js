@@ -1,6 +1,6 @@
 const AURA = (() => {
 
-    const VERSION = "1.3.0";
+    const VERSION = "1.4.0";
 
     function normalize(text) {
 
@@ -81,11 +81,18 @@ const AURA = (() => {
             "weaktopics",
             "learningscore",
 
-            "help",
-            "commands",
+               "help",
+              "commands",
             "capabilities",
-            "categories",
-            "manifest"
+             "categories",
+              "manifest",
+
+              "improve",
+           "improvementplan",
+           "improvementscore",
+              "weakareas",
+           "improvementactions",
+         "selfimprovementsummary"
         ];
 
         if (
