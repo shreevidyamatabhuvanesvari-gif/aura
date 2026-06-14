@@ -408,5 +408,14 @@ All New Features Must:
 - Remain Server Free
 
 ---
+# Command Lifecycle Policy
 
+A command is considered part of AURA only when:
+
+1. It is registered in CommandRegistry.
+2. It is listed in CommandManifest.
+3. It is parsed by Core Command Engine.
+4. It passes command tests.
+
+Commands that fail any of the above requirements are considered incomplete and must not be treated as production-ready.
 End Of Manifest
