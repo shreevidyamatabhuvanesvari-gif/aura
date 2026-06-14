@@ -2,7 +2,7 @@ const CommandManifest = (() => {
 
     const MANIFEST = {
 
-        version: "1.0.0",
+        version: "1.1.0",
 
         generatedAt:
             new Date()
@@ -125,6 +125,20 @@ const CommandManifest = (() => {
                     "weaktopics",
                     "learningscore"
                 ]
+            },
+
+            {
+                name: "Manifest",
+
+                commands: [
+
+                    "help",
+                    "commands",
+                    "capabilities",
+                    "categories",
+                    "manifest",
+                    "commandinfo"
+                ]
             }
         ],
 
@@ -148,7 +162,9 @@ const CommandManifest = (() => {
 
             "Goal Management",
 
-            "Meta Learning"
+            "Meta Learning",
+
+            "Self Description"
         ]
     };
 
@@ -208,7 +224,9 @@ const CommandManifest = (() => {
 
             if (
                 category.commands
-                .includes(target)
+                .includes(
+                    target
+                )
             ) {
 
                 return {
