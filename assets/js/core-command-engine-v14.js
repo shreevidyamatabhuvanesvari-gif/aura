@@ -644,6 +644,40 @@ const AURA = (() => {
             };
         }
 
+        /*
+|--------------------------------------------------------------------------
+| Hindi Command Router Integration
+|--------------------------------------------------------------------------
+*/
+
+if (
+    typeof HindiCommandRouter !==
+    "undefined"
+) {
+
+    const route =
+        HindiCommandRouter
+            .route(raw);
+
+    if (
+        route &&
+        route.success
+    ) {
+
+        return {
+
+            command:
+                route.intent,
+
+            payload: {
+
+                topic:
+                    route.topic
+            }
+        };
+    }
+}
+
         return {
 
             error:
