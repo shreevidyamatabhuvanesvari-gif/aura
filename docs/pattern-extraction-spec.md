@@ -1,287 +1,290 @@
-Pattern Extraction Specification v1.0
+# AURA Pattern Extraction Specification v1.0
 
 STATUS: FROZEN
 
-DATE: 2026-06-19
+DATE: 2026-06-22
 
 PRIORITY: CRITICAL
 
 ---
 
-Purpose
+# Purpose
 
-Enable AURA to learn patterns from stored content.
+Enable AURA to:
 
-Pattern Extraction is responsible for converting raw content into structured learning signals.
+1. Analyze stored content.
+2. Extract recurring patterns.
+3. Identify concepts.
+4. Measure concept frequency.
+5. Produce structured pattern data.
+6. Supply data to KnowledgeFragmentEngine.
 
-It does not generate content.
+Pattern Extraction is the bridge between:
 
-It prepares knowledge for future generation.
+Content Memory
+
+↓
+
+Pattern Extraction
+
+↓
+
+Knowledge Fragments
+
+↓
+
+Learning Core
+
+↓
+
+Creative Mind
 
 ---
 
-Core Principle
+# Core Principle
 
 PES-001
 
-Observe → Analyze → Extract
+Observe → Detect → Extract
 
-AURA must observe stored content,
-analyze recurring structures,
-and extract reusable patterns.
+AURA must not memorize raw content only.
+
+AURA must understand patterns.
 
 ---
 
-Input Source
+# Input Source
 
 PES-002
 
-Pattern Extraction Engine reads only from:
+Primary Source:
 
-Content Memory Engine
+ContentMemoryEngine
 
-Allowed Content Types:
+Allowed Sources:
 
-- Quotes
-- Status
-- Shayari
-- Captions
-- Festival Wishes
-- Greeting Messages
+- User Imported Content
+- User Approved Content
+- Stored Memory
+
+Not Allowed:
+
+- Internet Learning
+- External Crawling
+- Autonomous Data Collection
 
 ---
 
-Extraction Levels
+# Pattern Targets
 
 PES-003
 
-AURA must extract patterns at multiple levels.
+The engine should detect:
 
-Level 1:
-Word Patterns
-
-Level 2:
-Topic Patterns
-
-Level 3:
-Concept Patterns
-
-Level 4:
-Style Patterns
-
----
-
-Word Pattern Extraction
-
-PES-004
-
-Track:
-
-- Most Frequent Words
-- Most Frequent Phrases
-- Repeated Expressions
-
-Example:
-
-Input:
-
-"अनुशासन सफलता की पहली सीढ़ी है।"
-
-Extract:
-
-- अनुशासन
-- सफलता
-- सीढ़ी
-
----
-
-Topic Pattern Extraction
-
-PES-005
-
-Detect recurring topics.
+- Concepts
+- Topics
+- Keywords
+- Repeated Words
+- Writing Themes
+- Common Structures
 
 Examples:
 
-- Motivation
-- Success
-- Krishna
-- Discipline
-- Life
+Content:
 
-Output:
+"अनुशासन सफलता की पहली सीढ़ी है।"
+
+Extracted Concepts:
+
+- अनुशासन
+- सफलता
+- प्रयास
+- लक्ष्य
+
+---
+
+# Pattern Structure
+
+PES-004
+
+Output Format:
 
 {
-"topic": "motivation",
-"frequency": 52
+    "concepts": [
+        {
+            "concept": "अनुशासन",
+            "topic": "success",
+            "score": 85
+        }
+    ]
 }
 
 ---
 
-Concept Pattern Extraction
+# Frequency Scoring
+
+PES-005
+
+Score Range:
+
+0–100
+
+Factors:
+
+- Occurrence Count
+- Repetition
+- Relevance
+- Confidence
+
+Higher repetition:
+
+Higher score
+
+---
+
+# Topic Detection
 
 PES-006
 
-Identify conceptual fragments.
+Examples:
 
-Example:
+Motivation
 
-Quote:
+Discipline
 
-"कर्म ही जीवन का आधार है।"
+Krishna
 
-Extract:
+Life
 
-- कर्म
-- जीवन
-- आधार
+Success
 
-Concepts should be reusable by future engines.
+Spirituality
+
+Wisdom
+
+Duty
 
 ---
 
-Style Pattern Extraction
+# Memory Analysis
 
 PES-007
 
-Analyze:
+PatternExtractionEngine must analyze:
 
-- Average Sentence Length
-- Average Word Count
-- Tone
-- Writing Style
+ContentMemoryEngine
 
-Supported Styles:
+and generate:
 
-- Motivational
-- Spiritual
-- Educational
-- Inspirational
-- Informational
+{
+    concepts: [],
+    totalConcepts: 0,
+    timestamp: ""
+}
 
 ---
 
-Language Awareness
+# Dependency
 
 PES-008
 
-Version 1 Supported:
+PatternExtractionEngine provides data to:
 
-- Hindi
-- English
+KnowledgeFragmentEngine
 
-Reserved:
-
-- Sanskrit
-
-Pattern extraction must remain language-aware.
-
-Language data must be stored separately.
+KnowledgeFragmentEngine depends on PatternExtractionEngine.
 
 ---
 
-Pattern Profiles
+# Safety Rule
 
 PES-009
 
-AURA must create Pattern Profiles.
+Original memory must never be modified.
 
-Example:
+Pattern data must remain separate.
 
-{
-"topic": "krishna",
-"keywords": [
-"कर्म",
-"धर्म",
-"भक्ति"
-],
-"style": "spiritual",
-"averageLength": 12
-}
+Raw memory and extracted patterns
+must not overwrite each other.
 
 ---
 
-Learning Restrictions
+# Architecture
 
-PES-010
+User
 
-Pattern Extraction may:
-
-- Read Content Memory
-- Analyze Content
-- Build Pattern Profiles
-
-Pattern Extraction may not:
-
-- Modify Content Memory
-- Generate New Content
-- Rewrite Existing Data
-
----
-
-Output
-
-PES-011
-
-Output must be structured.
-
-Example:
-
-{
-"words": [],
-"topics": [],
-"concepts": [],
-"styles": []
-}
-
----
-
-Architecture
+↓
 
 Content Memory
+
 ↓
-Pattern Extraction
+
+Pattern Extraction Engine
+
 ↓
-Pattern Profiles
-↓
+
 Knowledge Fragment Engine
+
+↓
+
+Learning Core Engine
+
+↓
+
+Creative Mind Engine
+
+↓
+
+Generated Content
+
+↓
+
+User
 
 ---
 
-Version 1 Non-Goals
+# Version 1 Restrictions
 
 Not Included:
 
-- Content Generation
-- Autonomous Learning
-- Internet Crawling
+- Internet Learning
 - Voice Analysis
+- Image Analysis
 - Video Analysis
+- Autonomous Self-Modification
 
 ---
 
-Future Expansion
+# Future Expansion
 
-Version 2:
+Version 2
 
-- User Style Learning
-- Advanced Topic Detection
-- Sentiment Analysis
+- Theme Detection
+- Style Analysis
+- Sentence Structure Learning
 
-Version 3:
+Version 3
 
-- Personal Writing Pattern Learning
-- Multi-Language Pattern Modeling
+- Semantic Understanding
+- Context Awareness
+- Advanced Pattern Learning
 
 ---
 
-Freeze Record
+# Freeze Record
 
 Document:
-Pattern Extraction Specification v1.0
+
+docs/pattern-extraction-spec.md
+
+Version:
+
+1.0
 
 Status:
+
 FROZEN
 
 Next Planned Component:
+
 assets/js/pattern-extraction-engine.js
