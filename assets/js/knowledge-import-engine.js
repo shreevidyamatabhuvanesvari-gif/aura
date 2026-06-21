@@ -2,7 +2,7 @@ const KnowledgeImportEngine = (() => {
 
     function normalizeTopic(topic) {
 
-        return topic
+        return String(topic || "")
             .trim()
             .toLowerCase();
     }
@@ -24,11 +24,11 @@ const KnowledgeImportEngine = (() => {
 
             createdAt:
                 new Date()
-                .toISOString(),
+                    .toISOString(),
 
             updatedAt:
                 new Date()
-                .toISOString(),
+                    .toISOString(),
 
             entries: []
         };
@@ -43,6 +43,7 @@ const KnowledgeImportEngine = (() => {
             StorageEngine.load(key);
 
         if (data) {
+
             return data;
         }
 
@@ -58,52 +59,100 @@ const KnowledgeImportEngine = (() => {
 
         knowledge.updatedAt =
             new Date()
-            .toISOString();
+                .toISOString();
 
         return StorageEngine.save(
-            getKnowledgeKey(topic),
+
+            getKnowledgeKey(
+                topic
+            ),
+
             knowledge
         );
     }
 
     function importText(
+
         topic,
+
         content,
+
         source = "manual"
     ) {
 
         const knowledge =
-            getKnowledge(topic);
 
-        knowledge.entries.push({
+            getKnowledge(
+                topic
+            );
+
+        const entry = {
 
             id:
+
                 crypto.randomUUID(),
 
             timestamp:
+
                 new Date()
-                .toISOString(),
+                    .toISOString(),
 
-            source:
-                source,
+            source,
 
-            content:
-                content
-        });
+            content
+        };
+
+        knowledge.entries.push(
+            entry
+        );
 
         saveKnowledge(
+
             topic,
+
             knowledge
         );
+
+        /*
+         * Sync with ContentMemoryEngine
+         */
+
+        if (
+
+            typeof ContentMemoryEngine !==
+            "undefined"
+
+        ) {
+
+            ContentMemoryEngine
+                .addContent({
+
+                    type:
+                        "knowledge",
+
+                    topic,
+
+                    content,
+
+                    source,
+
+                    language:
+                        "hindi"
+                });
+        }
 
         return {
 
             success: true,
 
             topic:
-                normalizeTopic(topic),
+
+                normalizeTopic(
+                    topic
+                ),
 
             totalEntries:
+
                 knowledge.entries.length
         };
     }
@@ -111,32 +160,71 @@ const KnowledgeImportEngine = (() => {
     function getEntries(topic) {
 
         const knowledge =
-            getKnowledge(topic);
+
+            getKnowledge(
+                topic
+            );
 
         return knowledge.entries;
     }
 
     function clearTopic(topic) {
 
+        if (
+
+            typeof ContentMemoryEngine !==
+            "undefined"
+
+        ) {
+
+            const items =
+
+                ContentMemoryEngine
+                    .getByTopic(
+                        topic
+                    );
+
+            items.forEach(
+
+                item => {
+
+                    ContentMemoryEngine
+                        .remove(
+                            item.id
+                        );
+
+                }
+            );
+        }
+
         return StorageEngine.remove(
-            getKnowledgeKey(topic)
+
+            getKnowledgeKey(
+                topic
+            )
         );
     }
 
     function stats(topic) {
 
         const knowledge =
-            getKnowledge(topic);
+
+            getKnowledge(
+                topic
+            );
 
         return {
 
             topic:
+
                 knowledge.topic,
 
             totalEntries:
+
                 knowledge.entries.length,
 
             lastUpdated:
+
                 knowledge.updatedAt
         };
     }
