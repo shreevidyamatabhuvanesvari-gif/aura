@@ -1,12 +1,12 @@
 /**
  * AURA Creative Mind Engine
- * Version: 1.1.0
+ * Version: 1.2.0
  * Status: Creative Intelligence Upgrade
  */
 
 const CreativeMindEngine = (() => {
 
-    const VERSION = "1.1.0";
+    const VERSION = "1.2.0";
 
     function randomItem(items) {
 
@@ -26,17 +26,14 @@ const CreativeMindEngine = (() => {
         ];
     }
 
+    function cleanSentence(text) {
+
+        return String(text || "")
+            .trim()
+            .replace(/[।.]$/, "");
+    }
+
     function getFragments() {
-
-        if (
-            typeof LearningCoreEngine ===
-            "undefined"
-        ) {
-
-            throw new Error(
-                "LearningCoreEngine not loaded"
-            );
-        }
 
         const learningData =
             LearningCoreEngine
@@ -47,25 +44,21 @@ const CreativeMindEngine = (() => {
 
     function getTopicFragments(topic) {
 
-        const fragments =
-            getFragments();
+        return getFragments()
+            .filter(
+                fragment =>
 
-        return fragments.filter(
-            fragment =>
+                    String(
+                        fragment.topic || ""
+                    )
+                    .toLowerCase() ===
 
-                String(
-                    fragment.topic || ""
-                )
-                .toLowerCase() ===
-
-                String(topic || "")
-                .toLowerCase()
-        );
+                    String(topic || "")
+                    .toLowerCase()
+            );
     }
 
-    function uniqueConcepts(
-        fragments
-    ) {
+    function uniqueConcepts(fragments) {
 
         const map =
             new Map();
@@ -74,10 +67,9 @@ const CreativeMindEngine = (() => {
             fragment => {
 
                 const key =
-                    String(
+                    cleanSentence(
                         fragment.concept
                     )
-                    .trim()
                     .toLowerCase();
 
                 if (
@@ -98,9 +90,7 @@ const CreativeMindEngine = (() => {
         );
     }
 
-    function generateQuote(
-        topic
-    ) {
+    function generateQuote(topic) {
 
         const concepts =
             uniqueConcepts(
@@ -135,48 +125,52 @@ const CreativeMindEngine = (() => {
                 topic,
 
                 content:
-                    concepts[0]
-                    .concept +
-                    " जीवन को सही दिशा देने का आधार है।"
+                    cleanSentence(
+                        concepts[0]
+                        .concept
+                    ) +
+                    " जीवन को श्रेष्ठ दिशा प्रदान करता है।"
             };
         }
 
         const first =
-            randomItem(
-                concepts
+            cleanSentence(
+                randomItem(
+                    concepts
+                ).concept
             );
 
         let second =
-            randomItem(
-                concepts
+            cleanSentence(
+                randomItem(
+                    concepts
+                ).concept
             );
 
         while (
 
-            second &&
-            first &&
-            second.concept ===
-            first.concept &&
-
+            second === first &&
             concepts.length > 1
 
         ) {
 
             second =
-                randomItem(
-                    concepts
+                cleanSentence(
+                    randomItem(
+                        concepts
+                    ).concept
                 );
         }
 
         const templates = [
 
-            `${first.concept} जबकि ${second.concept} मनुष्य को महान बनाता है।`,
+            `${first} और ${second} जीवन के दो महत्वपूर्ण आधार हैं।`,
 
-            `${first.concept} अपनाने वाला व्यक्ति ${second.concept} की ओर स्वतः अग्रसर होता है।`,
+            `${first} तथा ${second} मनुष्य को महान बनने की प्रेरणा देते हैं।`,
 
-            `${first.concept} और ${second.concept} जीवन के दो महत्वपूर्ण स्तंभ हैं।`,
+            `${first} के साथ ${second} जीवन को नई दिशा प्रदान करता है।`,
 
-            `${first.concept} का पालन करने से ${second.concept} का मार्ग प्रशस्त होता है।`
+            `${first} और ${second} सफलता तथा आत्मविकास के स्तंभ हैं।`
 
         ];
 
@@ -195,9 +189,7 @@ const CreativeMindEngine = (() => {
         };
     }
 
-    function generateShayari(
-        topic
-    ) {
+    function generateShayari(topic) {
 
         const concepts =
             uniqueConcepts(
@@ -220,8 +212,10 @@ const CreativeMindEngine = (() => {
         }
 
         const concept =
-            randomItem(
-                concepts
+            cleanSentence(
+                randomItem(
+                    concepts
+                ).concept
             );
 
         return {
@@ -234,16 +228,14 @@ const CreativeMindEngine = (() => {
 
             content:
 
-`${concept.concept}
-से जीवन में प्रकाश आता है,
-सत्य और कर्म का मार्ग
+`${concept},
+जीवन में प्रकाश लाता है,
+सत्य और कर्म का पथ,
 मनुष्य को ऊँचा उठाता है।`
         };
     }
 
-    function generateCaption(
-        topic
-    ) {
+    function generateCaption(topic) {
 
         const concepts =
             uniqueConcepts(
@@ -264,11 +256,6 @@ const CreativeMindEngine = (() => {
                     "No learned concepts found"
             };
         }
-
-        const concept =
-            randomItem(
-                concepts
-            );
 
         return {
 
@@ -279,7 +266,11 @@ const CreativeMindEngine = (() => {
             topic,
 
             content:
-                concept.concept,
+                cleanSentence(
+                    randomItem(
+                        concepts
+                    ).concept
+                ),
 
             hashtags: [
 
@@ -290,9 +281,7 @@ const CreativeMindEngine = (() => {
         };
     }
 
-    function generateStatus(
-        topic
-    ) {
+    function generateStatus(topic) {
 
         const concepts =
             uniqueConcepts(
@@ -314,11 +303,6 @@ const CreativeMindEngine = (() => {
             };
         }
 
-        const concept =
-            randomItem(
-                concepts
-            );
-
         return {
 
             success: true,
@@ -328,13 +312,15 @@ const CreativeMindEngine = (() => {
             topic,
 
             content:
-                concept.concept
+                cleanSentence(
+                    randomItem(
+                        concepts
+                    ).concept
+                )
         };
     }
 
-    function create(
-        options = {}
-    ) {
+    function create(options = {}) {
 
         const type =
             String(
@@ -342,38 +328,30 @@ const CreativeMindEngine = (() => {
             )
             .toLowerCase();
 
-        const topic =
-            String(
-                options.topic ||
-                "general"
-            );
-
-        switch (
-            type
-        ) {
+        switch (type) {
 
             case "quote":
 
                 return generateQuote(
-                    topic
+                    options.topic
                 );
 
             case "shayari":
 
                 return generateShayari(
-                    topic
+                    options.topic
                 );
 
             case "caption":
 
                 return generateCaption(
-                    topic
+                    options.topic
                 );
 
             case "status":
 
                 return generateStatus(
-                    topic
+                    options.topic
                 );
 
             default:
@@ -388,32 +366,11 @@ const CreativeMindEngine = (() => {
         }
     }
 
-    function getMindReport() {
-
-        const fragments =
-            getFragments();
-
-        return {
-
-            version:
-                VERSION,
-
-            totalConcepts:
-                fragments.length,
-
-            timestamp:
-                new Date()
-                    .toISOString()
-        };
-    }
-
     return {
 
         VERSION,
 
-        create,
-
-        getMindReport
+        create
     };
 
 })();
