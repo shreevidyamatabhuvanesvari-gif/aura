@@ -1,12 +1,12 @@
 /**
  * AURA Hindi Intent Engine
- * Version: 1.0.1
- * Status: Production Foundation
+ * Version: 1.1.0
+ * Status: Natural Hindi Intelligence Upgrade
  */
 
 const HindiIntentEngine = (() => {
 
-    const VERSION = "1.0.1";
+    const VERSION = "1.1.0";
 
     function normalize(text) {
 
@@ -36,6 +36,12 @@ const HindiIntentEngine = (() => {
         const text =
             normalize(input);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Topic-based Creative Requests
+        |--------------------------------------------------------------------------
+        */
+
         if (
             text.includes("सुविचार")
         ) {
@@ -44,8 +50,7 @@ const HindiIntentEngine = (() => {
 
                 success: true,
 
-                intent:
-                    "quote",
+                intent: "quote",
 
                 topic:
                     extractTopic(
@@ -62,8 +67,7 @@ const HindiIntentEngine = (() => {
 
                 success: true,
 
-                intent:
-                    "shayari",
+                intent: "shayari",
 
                 topic:
                     extractTopic(
@@ -80,8 +84,7 @@ const HindiIntentEngine = (() => {
 
                 success: true,
 
-                intent:
-                    "status",
+                intent: "status",
 
                 topic:
                     extractTopic(
@@ -98,8 +101,7 @@ const HindiIntentEngine = (() => {
 
                 success: true,
 
-                intent:
-                    "caption",
+                intent: "caption",
 
                 topic:
                     extractTopic(
@@ -107,6 +109,12 @@ const HindiIntentEngine = (() => {
                     )
             };
         }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Knowledge Requests
+        |--------------------------------------------------------------------------
+        */
 
         if (
             text.includes("विषय में बताओ")
@@ -116,8 +124,7 @@ const HindiIntentEngine = (() => {
 
                 success: true,
 
-                intent:
-                    "knowledge",
+                intent: "knowledge",
 
                 topic:
                     extractTopic(
@@ -126,15 +133,27 @@ const HindiIntentEngine = (() => {
             };
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | General Motivation Requests
+        |--------------------------------------------------------------------------
+        */
+
         if (
 
-            text.includes("मुझे प्रेरित करो") ||
+            text.includes("एक प्रेरणादायक सुविचार लिखो") ||
+
+            text.includes("एक अच्छा सुविचार लिखो") ||
+
+            text.includes("एक प्रेरक विचार बताओ") ||
+
+            text.includes("कुछ प्रेरणा दो") ||
 
             text.includes("कुछ अच्छा बताओ") ||
 
-            text.includes("ज्ञान दो") ||
+            text.includes("मुझे प्रेरित करो") ||
 
-            text.includes("प्रेरणादायक सुविचार")
+            text.includes("ज्ञान दो")
 
         ) {
 
@@ -142,11 +161,9 @@ const HindiIntentEngine = (() => {
 
                 success: true,
 
-                intent:
-                    "quote",
+                intent: "quote",
 
-                topic:
-                    "general"
+                topic: "general"
             };
         }
 
