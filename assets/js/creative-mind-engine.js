@@ -1,12 +1,12 @@
 /**
  * AURA Creative Mind Engine
- * Version: 1.2.0
- * Status: Creative Intelligence Upgrade
+ * Version: 1.2.1
+ * Status: General Fallback Upgrade
  */
 
 const CreativeMindEngine = (() => {
 
-    const VERSION = "1.2.0";
+    const VERSION = "1.2.1";
 
     function randomItem(items) {
 
@@ -90,13 +90,32 @@ const CreativeMindEngine = (() => {
         );
     }
 
-    function generateQuote(topic) {
+    function resolveConcepts(topic) {
 
-        const concepts =
+        let concepts =
             uniqueConcepts(
                 getTopicFragments(
                     topic
                 )
+            );
+
+        if (
+            concepts.length
+        ) {
+
+            return concepts;
+        }
+
+        return uniqueConcepts(
+            getFragments()
+        );
+    }
+
+    function generateQuote(topic) {
+
+        const concepts =
+            resolveConcepts(
+                topic
             );
 
         if (
@@ -192,10 +211,8 @@ const CreativeMindEngine = (() => {
     function generateShayari(topic) {
 
         const concepts =
-            uniqueConcepts(
-                getTopicFragments(
-                    topic
-                )
+            resolveConcepts(
+                topic
             );
 
         if (
@@ -238,10 +255,8 @@ const CreativeMindEngine = (() => {
     function generateCaption(topic) {
 
         const concepts =
-            uniqueConcepts(
-                getTopicFragments(
-                    topic
-                )
+            resolveConcepts(
+                topic
             );
 
         if (
@@ -284,10 +299,8 @@ const CreativeMindEngine = (() => {
     function generateStatus(topic) {
 
         const concepts =
-            uniqueConcepts(
-                getTopicFragments(
-                    topic
-                )
+            resolveConcepts(
+                topic
             );
 
         if (
