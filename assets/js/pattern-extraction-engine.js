@@ -1,33 +1,23 @@
 /**
  * AURA Pattern Extraction Engine
- * Version: 1.1.0
+ * Version: 1.2.0
  * Status: Production Foundation
  */
 
 const PatternExtractionEngine = (() => {
 
-    const VERSION = "1.1.0";
+    const VERSION = "1.2.0";
 
     function normalize(text) {
 
         return String(text || "")
-            .trim()
-            .toLowerCase();
+            .trim();
     }
 
-    function tokenize(text) {
+    function buildConcepts(memory) {
 
-        return normalize(text)
-            .split(/\s+/)
-            .filter(
-                word =>
-                    word.length > 1
-            );
-    }
-
-    function extractPatterns(memory) {
-
-        const concepts = [];
+        const conceptMap =
+            new Map();
 
         memory.forEach(item => {
 
@@ -37,26 +27,84 @@ const PatternExtractionEngine = (() => {
                 );
 
             const content =
-                item.content ||
-                item.text ||
-                "";
+                normalize(
+                    item.content ||
+                    item.text ||
+                    ""
+                );
 
-            tokenize(content)
-                .forEach(word => {
+            if (!content) {
 
-                    concepts.push({
+                return;
+            }
+
+            const key =
+                (
+                    topic +
+                    "::" +
+                    content
+                )
+                .toLowerCase();
+
+            if (!conceptMap.has(key)) {
+
+                conceptMap.set(
+
+                    key,
+
+                    {
 
                         concept:
-                            word,
+                            content,
 
                         topic,
 
-                        score: 10
-                    });
+                        score: 10,
 
-                });
+                        frequency: 1
+                    }
+                );
 
+                return;
+            }
+
+            const existing =
+                conceptMap.get(
+                    key
+                );
+
+            existing.frequency += 1;
+
+            existing.score =
+                Math.min(
+
+                    100,
+
+                    existing.score + 10
+                );
         });
+
+        return Array.from(
+            conceptMap.values()
+        )
+        .sort(
+
+            (
+                a,
+                b
+            ) =>
+
+                b.score -
+                a.score
+        );
+    }
+
+    function extractPatterns(memory) {
+
+        const concepts =
+            buildConcepts(
+                memory
+            );
 
         return {
 
@@ -74,16 +122,20 @@ const PatternExtractionEngine = (() => {
     function analyzeMemory() {
 
         if (
+
             typeof ContentMemoryEngine ===
             "undefined"
+
         ) {
 
             throw new Error(
+
                 "ContentMemoryEngine not loaded"
             );
         }
 
         const memory =
+
             ContentMemoryEngine
                 .getAll();
 
@@ -95,8 +147,6 @@ const PatternExtractionEngine = (() => {
     return {
 
         VERSION,
-
-        tokenize,
 
         extractPatterns,
 
