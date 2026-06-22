@@ -1,20 +1,18 @@
 /**
  * AURA Pattern Extraction Engine
- * Version: 1.0.0
+ * Version: 1.1.0
  * Status: Production Foundation
  */
 
 const PatternExtractionEngine = (() => {
 
-    const VERSION = "1.0.0";
+    const VERSION = "1.1.0";
 
     function normalize(text) {
 
-        return String(
-            text || ""
-        )
-        .trim()
-        .toLowerCase();
+        return String(text || "")
+            .trim()
+            .toLowerCase();
     }
 
     function tokenize(text) {
@@ -27,89 +25,49 @@ const PatternExtractionEngine = (() => {
             );
     }
 
-    function countWords(texts) {
+    function extractPatterns(memory) {
 
-        const map =
-            new Map();
+        const concepts = [];
 
-        texts.forEach(text => {
+        memory.forEach(item => {
 
-            tokenize(text)
+            const topic =
+                String(
+                    item.topic || "general"
+                );
+
+            const content =
+                item.content ||
+                item.text ||
+                "";
+
+            tokenize(content)
                 .forEach(word => {
 
-                    const count =
-                        map.get(word) || 0;
+                    concepts.push({
 
-                    map.set(
-                        word,
-                        count + 1
-                    );
+                        concept:
+                            word,
+
+                        topic,
+
+                        score: 10
+                    });
 
                 });
 
         });
 
-        return map;
-    }
-
-    function buildConcepts(wordMap) {
-
-        const concepts = [];
-
-        wordMap.forEach(
-            (
-                count,
-                word
-            ) => {
-
-                concepts.push({
-
-                    concept:
-                        word,
-
-                    topic:
-                        "general",
-
-                    score:
-                        Math.min(
-                            100,
-                            count * 10
-                        )
-                });
-
-            }
-        );
-
-        return concepts.sort(
-            (
-                a,
-                b
-            ) =>
-                b.score -
-                a.score
-        );
-    }
-
-    function extractPatterns(contents) {
-
-        const wordMap =
-            countWords(
-                contents
-            );
-
         return {
 
-            concepts:
-                buildConcepts(
-                    wordMap
-                ),
+            concepts,
 
             totalConcepts:
-                wordMap.size,
+                concepts.length,
 
             timestamp:
                 new Date()
-                .toISOString()
+                    .toISOString()
         };
     }
 
@@ -129,27 +87,8 @@ const PatternExtractionEngine = (() => {
             ContentMemoryEngine
                 .getAll();
 
-        const contents =
-            memory.map(item => {
-
-                if (
-                    typeof item ===
-                    "string"
-                ) {
-
-                    return item;
-                }
-
-                return (
-                    item.content ||
-                    item.text ||
-                    ""
-                );
-
-            });
-
         return extractPatterns(
-            contents
+            memory
         );
     }
 
