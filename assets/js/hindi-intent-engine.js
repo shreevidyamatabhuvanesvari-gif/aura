@@ -1,12 +1,12 @@
 /**
  * AURA Hindi Intent Engine
- * Version: 1.0.0
+ * Version: 1.0.1
  * Status: Production Foundation
  */
 
 const HindiIntentEngine = (() => {
 
-    const VERSION = "1.0.0";
+    const VERSION = "1.0.1";
 
     function normalize(text) {
 
@@ -42,6 +42,8 @@ const HindiIntentEngine = (() => {
 
             return {
 
+                success: true,
+
                 intent:
                     "quote",
 
@@ -57,6 +59,8 @@ const HindiIntentEngine = (() => {
         ) {
 
             return {
+
+                success: true,
 
                 intent:
                     "shayari",
@@ -74,6 +78,8 @@ const HindiIntentEngine = (() => {
 
             return {
 
+                success: true,
+
                 intent:
                     "status",
 
@@ -89,6 +95,8 @@ const HindiIntentEngine = (() => {
         ) {
 
             return {
+
+                success: true,
 
                 intent:
                     "caption",
@@ -106,6 +114,8 @@ const HindiIntentEngine = (() => {
 
             return {
 
+                success: true,
+
                 intent:
                     "knowledge",
 
@@ -122,11 +132,15 @@ const HindiIntentEngine = (() => {
 
             text.includes("कुछ अच्छा बताओ") ||
 
-            text.includes("ज्ञान दो")
+            text.includes("ज्ञान दो") ||
+
+            text.includes("प्रेरणादायक सुविचार")
 
         ) {
 
             return {
+
+                success: true,
 
                 intent:
                     "quote",
