@@ -38,12 +38,62 @@ const HindiIntentEngine = (() => {
 
         /*
         |--------------------------------------------------------------------------
+        | General Motivation Requests
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+
+            text.includes(
+                "एक प्रेरणादायक सुविचार लिखो"
+            ) ||
+
+            text.includes(
+                "एक अच्छा सुविचार लिखो"
+            ) ||
+
+            text.includes(
+                "एक प्रेरक विचार बताओ"
+            ) ||
+
+            text.includes(
+                "कुछ प्रेरणा दो"
+            ) ||
+
+            text.includes(
+                "कुछ अच्छा बताओ"
+            ) ||
+
+            text.includes(
+                "मुझे प्रेरित करो"
+            ) ||
+
+            text.includes(
+                "ज्ञान दो"
+            )
+
+        ) {
+
+            return {
+
+                success: true,
+
+                intent: "quote",
+
+                topic: "general"
+            };
+        }
+
+        /*
+        |--------------------------------------------------------------------------
         | Topic-based Creative Requests
         |--------------------------------------------------------------------------
         */
 
         if (
-            text.includes("सुविचार")
+            text.includes(
+                "सुविचार"
+            )
         ) {
 
             return {
@@ -60,7 +110,9 @@ const HindiIntentEngine = (() => {
         }
 
         if (
-            text.includes("शायरी")
+            text.includes(
+                "शायरी"
+            )
         ) {
 
             return {
@@ -77,7 +129,9 @@ const HindiIntentEngine = (() => {
         }
 
         if (
-            text.includes("स्टेटस")
+            text.includes(
+                "स्टेटस"
+            )
         ) {
 
             return {
@@ -94,7 +148,9 @@ const HindiIntentEngine = (() => {
         }
 
         if (
-            text.includes("कैप्शन")
+            text.includes(
+                "कैप्शन"
+            )
         ) {
 
             return {
@@ -117,7 +173,9 @@ const HindiIntentEngine = (() => {
         */
 
         if (
-            text.includes("विषय में बताओ")
+            text.includes(
+                "विषय में बताओ"
+            )
         ) {
 
             return {
@@ -130,40 +188,6 @@ const HindiIntentEngine = (() => {
                     extractTopic(
                         text
                     )
-            };
-        }
-
-        /*
-        |--------------------------------------------------------------------------
-        | General Motivation Requests
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-
-            text.includes("एक प्रेरणादायक सुविचार लिखो") ||
-
-            text.includes("एक अच्छा सुविचार लिखो") ||
-
-            text.includes("एक प्रेरक विचार बताओ") ||
-
-            text.includes("कुछ प्रेरणा दो") ||
-
-            text.includes("कुछ अच्छा बताओ") ||
-
-            text.includes("मुझे प्रेरित करो") ||
-
-            text.includes("ज्ञान दो")
-
-        ) {
-
-            return {
-
-                success: true,
-
-                intent: "quote",
-
-                topic: "general"
             };
         }
 
