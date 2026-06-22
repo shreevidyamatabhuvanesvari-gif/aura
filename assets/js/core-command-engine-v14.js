@@ -644,7 +644,45 @@ const AURA = (() => {
             };
         }
 
+        
+
         /*
+|--------------------------------------------------------------------------
+| Hindi Intent Engine Integration
+|--------------------------------------------------------------------------
+*/
+
+if (
+    typeof HindiIntentEngine !==
+    "undefined"
+) {
+
+    const intent =
+        HindiIntentEngine
+            .detectIntent(raw);
+
+    if (
+        intent &&
+        intent.success
+    ) {
+
+        return {
+
+            command:
+                intent.intent,
+
+            payload: {
+
+                topic:
+                    intent.topic,
+
+                type:
+                    intent.type
+            }
+        };
+    }
+}
+    /*
 |--------------------------------------------------------------------------
 | Hindi Command Router Integration
 |--------------------------------------------------------------------------
