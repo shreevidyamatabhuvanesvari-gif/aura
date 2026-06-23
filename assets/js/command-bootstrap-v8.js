@@ -6,16 +6,16 @@
 
             "philosophy",
 
-            () => ({
+            payload =>
 
-                success: true,
+                PhilosophyEngine.answer(
 
-                type:
-                    "philosophy",
+                    payload.question ||
 
-                content:
-                    "सत्य, धर्म और कर्म का सही ज्ञान ही मनुष्य को विवेकपूर्ण जीवन की ओर ले जाता है।"
-            })
+                    payload.raw ||
+
+                    ""
+                )
         );
     }
 
