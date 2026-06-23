@@ -1,12 +1,12 @@
 /**
  * AURA Hindi Intent Engine
- * Version: 1.1.0
+ * Version: 1.2.0
  * Status: Natural Hindi Intelligence Upgrade
  */
 
 const HindiIntentEngine = (() => {
 
-    const VERSION = "1.1.0";
+    const VERSION = "1.2.0";
 
     function normalize(text) {
 
@@ -91,9 +91,7 @@ const HindiIntentEngine = (() => {
         */
 
         if (
-            text.includes(
-                "सुविचार"
-            )
+            text.includes("सुविचार")
         ) {
 
             return {
@@ -110,9 +108,7 @@ const HindiIntentEngine = (() => {
         }
 
         if (
-            text.includes(
-                "शायरी"
-            )
+            text.includes("शायरी")
         ) {
 
             return {
@@ -129,9 +125,7 @@ const HindiIntentEngine = (() => {
         }
 
         if (
-            text.includes(
-                "स्टेटस"
-            )
+            text.includes("स्टेटस")
         ) {
 
             return {
@@ -148,9 +142,7 @@ const HindiIntentEngine = (() => {
         }
 
         if (
-            text.includes(
-                "कैप्शन"
-            )
+            text.includes("कैप्शन")
         ) {
 
             return {
@@ -188,6 +180,110 @@ const HindiIntentEngine = (() => {
                     extractTopic(
                         text
                     )
+            };
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Philosophy Intent
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+
+            text.includes(
+                "सत्य और असत्य"
+            ) ||
+
+            text.includes(
+                "जीवन का उद्देश्य"
+            ) ||
+
+            text.includes(
+                "धर्म क्या है"
+            ) ||
+
+            text.includes(
+                "कर्म क्या है"
+            ) ||
+
+            text.includes(
+                "आत्मा क्या है"
+            )
+
+        ) {
+
+            return {
+
+                success: true,
+
+                intent: "philosophy",
+
+                topic: "general"
+            };
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Reasoning Intent
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+
+            text.includes(
+                "क्यों"
+            ) ||
+
+            text.includes(
+                "किस कारण"
+            ) ||
+
+            text.includes(
+                "क्या यह उचित है"
+            ) ||
+
+            text.includes(
+                "ऐसा क्यों होता है"
+            )
+
+        ) {
+
+            return {
+
+                success: true,
+
+                intent: "reasoning",
+
+                topic: "general"
+            };
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Comparison Intent
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+
+            text.includes(
+                "में क्या अंतर है"
+            ) ||
+
+            text.includes(
+                "कौन बेहतर है"
+            )
+
+        ) {
+
+            return {
+
+                success: true,
+
+                intent: "compare",
+
+                topic: "general"
             };
         }
 
