@@ -44,16 +44,16 @@
 
             "compare",
 
-            () => ({
+            payload =>
 
-                success: true,
+                ComparisonEngine.answer(
 
-                type:
-                    "comparison",
+                    payload.question ||
 
-                content:
-                    "श्रेष्ठता परिस्थितियों, उद्देश्यों और गुणों पर निर्भर करती है; उचित तुलना विवेक के साथ करनी चाहिए।"
-            })
+                    payload.raw ||
+
+                    ""
+                )
         );
     }
 
