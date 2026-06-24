@@ -159,30 +159,83 @@ const HindiIntentEngine = (() => {
         }
 
         /*
-        |--------------------------------------------------------------------------
-        | Knowledge Requests
-        |--------------------------------------------------------------------------
-        */
+|--------------------------------------------------------------------------
+| Knowledge Requests
+|--------------------------------------------------------------------------
+*/
 
-        if (
-            text.includes(
-                "विषय में बताओ"
+if (
+    text.includes(
+        "विषय में बताओ"
+    )
+) {
+
+    return {
+
+        success: true,
+
+        intent: "knowledge",
+
+        topic:
+            extractTopic(
+                text
             )
-        ) {
+    };
+}
 
-            return {
+/*
+|--------------------------------------------------------------------------
+| Reasoning Requests
+|--------------------------------------------------------------------------
+*/
 
-                success: true,
+if (
 
-                intent: "knowledge",
+    text.includes(
+        "क्यों"
+    ) ||
 
-                topic:
-                    extractTopic(
-                        text
-                    )
-            };
-        }
+    text.includes(
+        "उचित"
+    ) ||
 
+    text.includes(
+        "सही"
+    ) ||
+
+    text.includes(
+        "क्रोध"
+    ) ||
+
+    text.includes(
+        "गुस्सा"
+    ) ||
+
+    text.includes(
+        "सोचना चाहिए"
+    ) ||
+
+    text.includes(
+        "क्या करना चाहिए"
+    ) ||
+
+    text.includes(
+        "निर्णय"
+    )
+
+) {
+
+    return {
+
+        success: true,
+
+        intent: "reasoning",
+
+        topic: "general"
+    };
+}
+
+return null;
         /*
         |--------------------------------------------------------------------------
         | Philosophy Intent
