@@ -1,12 +1,12 @@
 /**
  * AURA Hindi Intent Engine
- * Version: 1.2.0
+ * Version: 1.2.1
  * Status: Natural Hindi Intelligence Upgrade
  */
 
 const HindiIntentEngine = (() => {
 
-    const VERSION = "1.2.0";
+    const VERSION = "1.2.1";
 
     function normalize(text) {
 
@@ -44,33 +44,19 @@ const HindiIntentEngine = (() => {
 
         if (
 
-            text.includes(
-                "एक प्रेरणादायक सुविचार लिखो"
-            ) ||
+            text.includes("एक प्रेरणादायक सुविचार लिखो") ||
 
-            text.includes(
-                "एक अच्छा सुविचार लिखो"
-            ) ||
+            text.includes("एक अच्छा सुविचार लिखो") ||
 
-            text.includes(
-                "एक प्रेरक विचार बताओ"
-            ) ||
+            text.includes("एक प्रेरक विचार बताओ") ||
 
-            text.includes(
-                "कुछ प्रेरणा दो"
-            ) ||
+            text.includes("कुछ प्रेरणा दो") ||
 
-            text.includes(
-                "कुछ अच्छा बताओ"
-            ) ||
+            text.includes("कुछ अच्छा बताओ") ||
 
-            text.includes(
-                "मुझे प्रेरित करो"
-            ) ||
+            text.includes("मुझे प्रेरित करो") ||
 
-            text.includes(
-                "ज्ञान दो"
-            )
+            text.includes("ज्ञान दो")
 
         ) {
 
@@ -159,83 +145,30 @@ const HindiIntentEngine = (() => {
         }
 
         /*
-|--------------------------------------------------------------------------
-| Knowledge Requests
-|--------------------------------------------------------------------------
-*/
+        |--------------------------------------------------------------------------
+        | Knowledge Requests
+        |--------------------------------------------------------------------------
+        */
 
-if (
-    text.includes(
-        "विषय में बताओ"
-    )
-) {
-
-    return {
-
-        success: true,
-
-        intent: "knowledge",
-
-        topic:
-            extractTopic(
-                text
+        if (
+            text.includes(
+                "विषय में बताओ"
             )
-    };
-}
+        ) {
 
-/*
-|--------------------------------------------------------------------------
-| Reasoning Requests
-|--------------------------------------------------------------------------
-*/
+            return {
 
-if (
+                success: true,
 
-    text.includes(
-        "क्यों"
-    ) ||
+                intent: "knowledge",
 
-    text.includes(
-        "उचित"
-    ) ||
+                topic:
+                    extractTopic(
+                        text
+                    )
+            };
+        }
 
-    text.includes(
-        "सही"
-    ) ||
-
-    text.includes(
-        "क्रोध"
-    ) ||
-
-    text.includes(
-        "गुस्सा"
-    ) ||
-
-    text.includes(
-        "सोचना चाहिए"
-    ) ||
-
-    text.includes(
-        "क्या करना चाहिए"
-    ) ||
-
-    text.includes(
-        "निर्णय"
-    )
-
-) {
-
-    return {
-
-        success: true,
-
-        intent: "reasoning",
-
-        topic: "general"
-    };
-}
-
-return null;
         /*
         |--------------------------------------------------------------------------
         | Philosophy Intent
@@ -244,25 +177,15 @@ return null;
 
         if (
 
-            text.includes(
-                "सत्य और असत्य"
-            ) ||
+            text.includes("सत्य और असत्य") ||
 
-            text.includes(
-                "जीवन का उद्देश्य"
-            ) ||
+            text.includes("जीवन का उद्देश्य") ||
 
-            text.includes(
-                "धर्म क्या है"
-            ) ||
+            text.includes("धर्म क्या है") ||
 
-            text.includes(
-                "कर्म क्या है"
-            ) ||
+            text.includes("कर्म क्या है") ||
 
-            text.includes(
-                "आत्मा क्या है"
-            )
+            text.includes("आत्मा क्या है")
 
         ) {
 
@@ -284,21 +207,23 @@ return null;
 
         if (
 
-            text.includes(
-                "क्यों"
-            ) ||
+            text.includes("क्यों") ||
 
-            text.includes(
-                "किस कारण"
-            ) ||
+            text.includes("किस कारण") ||
 
-            text.includes(
-                "क्या यह उचित है"
-            ) ||
+            text.includes("उचित") ||
 
-            text.includes(
-                "ऐसा क्यों होता है"
-            )
+            text.includes("सही") ||
+
+            text.includes("क्रोध") ||
+
+            text.includes("गुस्सा") ||
+
+            text.includes("सोचना चाहिए") ||
+
+            text.includes("क्या करना चाहिए") ||
+
+            text.includes("निर्णय")
 
         ) {
 
@@ -320,13 +245,9 @@ return null;
 
         if (
 
-            text.includes(
-                "में क्या अंतर है"
-            ) ||
+            text.includes("में क्या अंतर है") ||
 
-            text.includes(
-                "कौन बेहतर है"
-            )
+            text.includes("कौन बेहतर है")
 
         ) {
 
