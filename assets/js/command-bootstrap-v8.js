@@ -25,16 +25,16 @@
 
             "reasoning",
 
-            () => ({
+            payload =>
 
-                success: true,
+                HumanReasoningEngine.answer(
 
-                type:
-                    "reasoning",
+                    payload.question ||
 
-                content:
-                    "किसी भी निष्कर्ष तक पहुँचने से पहले तथ्य, तर्क और अनुभव तीनों का संतुलन आवश्यक है।"
-            })
+                    payload.raw ||
+
+                    ""
+                )
         );
     }
 
