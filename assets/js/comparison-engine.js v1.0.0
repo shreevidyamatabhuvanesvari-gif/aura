@@ -1,13 +1,12 @@
-alert("ComparisonEngine Loaded");
-
 /**
  * AURA Comparison Engine
- * Version: 1.0.1
+ * Version: 1.0.2
+ * Status: Safe Global Object
  */
 
-const ComparisonEngine = {
+window.ComparisonEngine = {
 
-    VERSION: "1.0.1",
+    VERSION: "1.0.2",
 
     answer(question) {
 
@@ -18,7 +17,6 @@ const ComparisonEngine = {
             type: "comparison",
 
             content:
-
                 "Comparison Engine Active"
         };
     }
