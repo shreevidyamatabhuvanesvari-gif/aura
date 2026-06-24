@@ -1,0 +1,122 @@
+/**
+ * AURA Comparison Engine
+ * Version: 1.0.0
+ * Status: Comparison Foundation
+ */
+
+const ComparisonEngine = (() => {
+
+    const VERSION = "1.0.0";
+
+    function normalize(text) {
+
+        return String(text || "")
+            .trim();
+    }
+
+    function compareEntities(entityA, entityB) {
+
+        return {
+
+            success: true,
+
+            type:
+                "comparison",
+
+            entityA,
+
+            entityB,
+
+            content:
+
+                entityA +
+
+                " और " +
+
+                entityB +
+
+                " दोनों के गुण, उद्देश्य और परिस्थितियाँ भिन्न हो सकती हैं; अतः उचित तुलना विवेक और संदर्भ के आधार पर करनी चाहिए।"
+        };
+    }
+
+    function extractEntities(question) {
+
+        const text =
+            normalize(question);
+
+        if (
+            text.includes(
+                " में क्या अंतर है"
+            )
+        ) {
+
+            const parts =
+                text.replace(
+                    "में क्या अंतर है?",
+                    ""
+                )
+                .replace(
+                    "में क्या अंतर है",
+                    ""
+                )
+                .split(" और ");
+
+            if (
+                parts.length === 2
+            ) {
+
+                return {
+
+                    entityA:
+                        parts[0].trim(),
+
+                    entityB:
+                        parts[1].trim()
+                };
+            }
+        }
+
+        return null;
+    }
+
+    function answer(question) {
+
+        const entities =
+            extractEntities(
+                question
+            );
+
+        if (
+            entities
+        ) {
+
+            return compareEntities(
+
+                entities.entityA,
+
+                entities.entityB
+            );
+        }
+
+        return {
+
+            success: true,
+
+            type:
+                "comparison",
+
+            content:
+
+                "श्रेष्ठता परिस्थितियों, उद्देश्यों और गुणों पर निर्भर करती है; उचित तुलना विवेक के साथ करनी चाहिए।"
+        };
+    }
+
+    return {
+
+        VERSION,
+
+        answer
+
+    };
+
+})();
