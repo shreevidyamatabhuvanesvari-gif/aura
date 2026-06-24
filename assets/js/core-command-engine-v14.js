@@ -677,7 +677,10 @@ if (
                     intent.topic,
 
                 type:
-                    intent.type
+                    intent.type,
+
+                question:
+                    raw
             }
         };
     }
