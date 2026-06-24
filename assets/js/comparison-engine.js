@@ -1,23 +1,131 @@
 /**
  * AURA Comparison Engine
- * Version: 1.0.2
- * Status: Safe Global Object
+ * Version: 1.1.0
+ * Status: Dynamic Comparison Upgrade
  */
 
 window.ComparisonEngine = {
 
-    VERSION: "1.0.2",
+    VERSION: "1.1.0",
 
-    answer(question) {
+    normalize(text) {
+
+        return String(text || "")
+            .trim();
+    },
+
+    extractEntities(question) {
+
+        const text =
+            this.normalize(
+                question
+            );
+
+        if (
+
+            text.includes(
+                "में क्या अंतर है"
+            )
+
+        ) {
+
+            const cleaned =
+                text
+
+                .replace(
+                    "में क्या अंतर है?",
+                    ""
+                )
+
+                .replace(
+                    "में क्या अंतर है",
+                    ""
+                )
+
+                .trim();
+
+            const parts =
+                cleaned.split(
+                    " और "
+                );
+
+            if (
+                parts.length === 2
+            ) {
+
+                return {
+
+                    entityA:
+                        parts[0]
+                        .trim(),
+
+                    entityB:
+                        parts[1]
+                        .trim()
+                };
+            }
+        }
+
+        return null;
+    },
+
+    compareEntities(
+        entityA,
+        entityB
+    ) {
 
         return {
 
             success: true,
 
-            type: "comparison",
+            type:
+                "comparison",
+
+            entityA,
+
+            entityB,
 
             content:
-                "Comparison Engine Active"
+
+                entityA +
+
+                " और " +
+
+                entityB +
+
+                " दोनों के गुण, उद्देश्य और परिस्थितियाँ भिन्न हो सकती हैं; अतः उचित तुलना विवेक और संदर्भ के आधार पर करनी चाहिए।"
+        };
+    },
+
+    answer(question) {
+
+        const entities =
+            this.extractEntities(
+                question
+            );
+
+        if (
+            entities
+        ) {
+
+            return this.compareEntities(
+
+                entities.entityA,
+
+                entities.entityB
+            );
+        }
+
+        return {
+
+            success: true,
+
+            type:
+                "comparison",
+
+            content:
+
+                "श्रेष्ठता परिस्थितियों, उद्देश्यों और गुणों पर निर्भर करती है; उचित तुलना विवेक के साथ करनी चाहिए।"
         };
     }
 };
