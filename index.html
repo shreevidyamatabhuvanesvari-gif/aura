@@ -176,6 +176,139 @@ AURA Production Console
 
     <main
         class="console-layout">
+        <!-- ===================================================== -->
+        <!-- COMMAND PANEL -->
+        <!-- ===================================================== -->
+
+        <section
+            class="command-panel">
+
+            <label
+                for="commandInput">
+
+                Command
+
+            </label>
+
+            <textarea
+                id="commandInput"
+                placeholder="Enter command..."></textarea>
+
+            <div
+                class="command-info">
+
+                <span id="characterCount">
+
+                    Characters : 0
+
+                </span>
+
+                <span id="shortcutInfo">
+
+                    Ctrl + Enter = Execute
+
+                </span>
+
+            </div>
+
+        </section>
+
+        <!-- ===================================================== -->
+        <!-- OUTPUT PANEL -->
+        <!-- ===================================================== -->
+
+        <section
+            class="output-panel">
+
+            <div
+                class="output-header">
+
+                <h2>
+
+                    Output
+
+                </h2>
+
+                <span
+                    id="executionTime">
+
+                    Ready
+
+                </span>
+
+            </div>
+
+            <pre
+                id="outputConsole">
+
+Awaiting command...
+
+            </pre>
+
+        </section>
+
+    </main>
+
+    <!-- ===================================================== -->
+    <!-- TOAST CONTAINER -->
+    <!-- ===================================================== -->
+
+    <div
+        id="toastContainer">
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- MODAL CONTAINER -->
+    <!-- ===================================================== -->
+
+    <div
+        id="modalContainer">
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
+
+    <footer
+        class="app-footer">
+
+        <span>
+
+            AURA Production Console
+
+        </span>
+
+        <span
+            id="buildVersion">
+
+            Build :
+            2.0.0
+
+        </span>
+
+    </footer>
+
+</div>
+
+<!-- ===================================================== -->
+<!-- USER INTERFACE -->
+<!-- ===================================================== -->
+
+<script
+    src="assets/js/aura-console-ui.js"></script>
+
+<!-- ===================================================== -->
+<!-- BOOTSTRAP -->
+<!-- ===================================================== -->
+
+<script
+    src="assets/js/aura-bootstrap.js"></script>
+
+<!-- ===================================================== -->
+<!-- AURA ENGINES -->
+<!-- ===================================================== -->
         
 <!-- Foundation -->
 <script src="assets/js/task-manager.js"></script>
