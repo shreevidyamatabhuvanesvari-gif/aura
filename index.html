@@ -1,153 +1,182 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AURA Brain Console</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-<meta name="description" content="AURA Autonomous Knowledge System">
+<meta
+    name="description"
+    content="AURA Production Intelligence Console">
 
-<style>
-:root{
-    --bg:#0f172a;
-    --panel:#111827;
-    --accent:#22c55e;
-    --text:#f8fafc;
-    --muted:#94a3b8;
-}
+<meta
+    name="theme-color"
+    content="#0f172a">
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+<title>
 
-body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:system-ui,sans-serif;
-    min-height:100vh;
-}
+AURA Production Console
 
-header{
-    padding:20px;
-    border-bottom:1px solid #1e293b;
-}
+</title>
 
-h1{
-    font-size:1.8rem;
-}
+<link
+    rel="icon"
+    href="assets/icons/aura.ico">
 
-.subtitle{
-    margin-top:6px;
-    color:var(--muted);
-}
+<link
+    rel="stylesheet"
+    href="assets/css/aura-console.css">
 
-main{
-    padding:20px;
-}
-
-.panel{
-    background:var(--panel);
-    padding:20px;
-    border-radius:12px;
-}
-
-.status{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.indicator{
-    width:12px;
-    height:12px;
-    border-radius:50%;
-    background:var(--accent);
-}
-
-.console{
-    margin-top:20px;
-}
-
-label{
-    display:block;
-    margin-bottom:8px;
-}
-
-textarea{
-    width:100%;
-    min-height:120px;
-    border:none;
-    outline:none;
-    resize:vertical;
-    border-radius:10px;
-    padding:12px;
-    font-size:14px;
-}
-
-button{
-    margin-top:12px;
-    padding:10px 18px;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:bold;
-    background:var(--accent);
-}
-
-.output{
-    margin-top:20px;
-    padding:15px;
-    border-radius:10px;
-    background:#020617;
-    white-space:pre-wrap;
-}
-</style>
 </head>
 
 <body>
 
-<header>
-    <h1>AURA Brain Console</h1>
-    <div class="subtitle">
-        Autonomous Knowledge System Bootstrap
-    </div>
-</header>
+<div
+    id="app">
 
-<main>
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
 
-<div class="panel">
+    <header
+        class="app-header">
 
-    <div class="status">
-        <div class="indicator"></div>
-        <span>System Ready</span>
-    </div>
+        <div
+            class="brand">
 
-    <div class="console">
+            <h1>
 
-        <label for="command">Command</label>
+                AURA
 
-        <textarea
-            id="command"
-            placeholder="Example: Learn Java">
-        </textarea>
+            </h1>
 
-        <button onclick="runCommand()">
-            Execute
-        </button>
+            <span
+                class="version">
 
-        <div class="output" id="output">
-Awaiting command...
+                Production Console
+                v2.0
+
+            </span>
+
         </div>
 
-    </div>
+        <div
+            class="system-status">
 
-</div>
+            <span
+                id="systemIndicator"
+                class="online">
 
-</main>
+            </span>
 
+            <span
+                id="systemStatus">
+
+                System Ready
+
+            </span>
+
+        </div>
+
+    </header>
+
+    <!-- ===================================================== -->
+    <!-- STATUS BAR -->
+    <!-- ===================================================== -->
+
+    <section
+        class="status-bar">
+
+        <div>
+
+            Engine
+
+            <strong
+                id="engineStatus">
+
+                Ready
+
+            </strong>
+
+        </div>
+
+        <div>
+
+            Boot
+
+            <strong
+                id="bootTime">
+
+                --
+
+            </strong>
+
+        </div>
+
+        <div>
+
+            Commands
+
+            <strong
+                id="commandCount">
+
+                0
+
+            </strong>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TOOLBAR -->
+    <!-- ===================================================== -->
+
+    <nav
+        class="toolbar">
+
+        <button
+            id="executeButton">
+
+            Execute
+
+        </button>
+
+        <button
+            id="copyButton">
+
+            Copy
+
+        </button>
+
+        <button
+            id="clearButton">
+
+            Clear
+
+        </button>
+
+        <button
+            id="downloadButton">
+
+            Download
+
+        </button>
+
+    </nav>
+
+    <!-- ===================================================== -->
+    <!-- MAIN CONSOLE -->
+    <!-- ===================================================== -->
+
+    <main
+        class="console-layout">
+        
 <!-- Foundation -->
 <script src="assets/js/task-manager.js"></script>
 <script src="assets/js/storage-engine.js"></script>
