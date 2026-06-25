@@ -261,6 +261,34 @@ const HindiIntentEngine = (() => {
             };
         }
 
+        /*
+        |--------------------------------------------------------------------------
+        | Question Answer Intent
+        |--------------------------------------------------------------------------
+        */
+
+        if (
+
+            text.includes("क्या है") ||
+
+            text.includes("क्या हैं") ||
+
+            text.includes("कौन है") ||
+
+            text.includes("कौन हैं")
+
+        ) {
+
+            return {
+
+                success: true,
+
+                intent: "question",
+
+                topic: "general"
+            };
+        }
+
         return null;
     }
 
