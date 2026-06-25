@@ -1,3 +1,9 @@
+/**
+ * AURA Command Bootstrap
+ * Version: 8.1.0
+ * Status: Philosophy + Reasoning + Comparison + Question Integration
+ */
+
 (() => {
 
     function registerPhilosophy() {
@@ -57,6 +63,25 @@
         );
     }
 
+    function registerQuestion() {
+
+        CommandRegistry.register(
+
+            "question",
+
+            payload =>
+
+                QuestionAnswerEngine.answer(
+
+                    payload.question ||
+
+                    payload.raw ||
+
+                    ""
+                )
+        );
+    }
+
     function bootstrap() {
 
         registerPhilosophy();
@@ -64,6 +89,8 @@
         registerReasoning();
 
         registerComparison();
+
+        registerQuestion();
     }
 
     bootstrap();
