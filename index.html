@@ -1,394 +1,159 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
-
-<meta
-    name="description"
-    content="AURA Production Intelligence Console">
-
-<meta
-    name="theme-color"
-    content="#0f172a">
-
-<title>
-
-AURA Production Console
-
-</title>
-
-<link
-    rel="icon"
-    href="assets/icons/aura.ico">
-
-<link
-    rel="stylesheet"
-    href="assets/css/aura-console.css">
-
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AURA Production Intelligence Console">
+  <meta name="theme-color" content="#0f172a">
+  <title>AURA Production Console</title>
+  <link rel="icon" href="assets/icons/aura.ico">
+  <link rel="stylesheet" href="assets/css/aura-console.css">
 </head>
-
 <body>
 
-<div
-    id="app">
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-    <!-- ===================================================== -->
-    <!-- HEADER -->
-    <!-- ===================================================== -->
-
-    <header
-        class="app-header">
-
-        <div
-            class="brand">
-
-            <h1>
-
-                AURA
-
-            </h1>
-
-            <span
-                class="version">
-
-                Production Console
-                v2.0
-
-            </span>
-
-        </div>
-
-        <div
-            class="system-status">
-
-            <span
-                id="systemIndicator"
-                class="online">
-
-            </span>
-
-            <span
-                id="systemStatus">
-
-                System Ready
-
-            </span>
-
-        </div>
-
+  <div id="app">
+    <header class="app-header" role="banner">
+      <div class="brand">
+        <h1>AURA <span class="version">v2.0</span></h1>
+        <p class="subtitle">Production Console</p>
+      </div>
+      <div class="system-status" aria-live="polite">
+        <span id="systemIndicator" class="online" aria-hidden="true"></span>
+        <span id="systemStatus">System Initializing...</span>
+      </div>
     </header>
 
-    <!-- ===================================================== -->
-    <!-- STATUS BAR -->
-    <!-- ===================================================== -->
-
-    <section
-        class="status-bar">
-
-        <div>
-
-            Engine
-
-            <strong
-                id="engineStatus">
-
-                Ready
-
-            </strong>
-
-        </div>
-
-        <div>
-
-            Boot
-
-            <strong
-                id="bootTime">
-
-                --
-
-            </strong>
-
-        </div>
-
-        <div>
-
-            Commands
-
-            <strong
-                id="commandCount">
-
-                0
-
-            </strong>
-
-        </div>
-
+    <section class="status-bar" role="status" aria-label="Engine status bar">
+      <div>Engine<br><strong id="engineStatus">Offline</strong></div>
+      <div>Boot<br><strong id="bootTime">--</strong></div>
+      <div>Commands<br><strong id="commandCount">0</strong></div>
     </section>
 
-    <!-- ===================================================== -->
-    <!-- TOOLBAR -->
-    <!-- ===================================================== -->
-
-    <nav
-        class="toolbar">
-
-        <button
-            id="executeButton">
-
-            Execute
-
-        </button>
-
-        <button
-            id="copyButton">
-
-            Copy
-
-        </button>
-
-        <button
-            id="clearButton">
-
-            Clear
-
-        </button>
-
-        <button
-            id="downloadButton">
-
-            Download
-
-        </button>
-
+    <nav class="toolbar" role="navigation" aria-label="Console toolbar">
+      <button id="executeButton" type="button" class="button-primary">Execute</button>
+      <button id="copyButton" type="button" class="button-primary">Copy</button>
+      <button id="clearButton" type="button" class="button-primary">Clear</button>
+      <button id="downloadButton" type="button" class="button-primary">Download</button>
     </nav>
 
-    <!-- ===================================================== -->
-    <!-- MAIN CONSOLE -->
-    <!-- ===================================================== -->
+    <main class="console-layout" id="main">
+      <section class="command-panel" aria-label="Command input panel">
+        <label for="commandInput">Command</label>
+        <textarea id="commandInput" placeholder="Enter command here..." aria-describedby="shortcutInfo characterCount"></textarea>
+        <div class="command-info">
+          <span id="characterCount">Characters : 0</span>
+          <span id="shortcutInfo">Ctrl + Enter = Execute</span>
+        </div>
+      </section>
 
-    <main
-        class="console-layout">
-        <!-- ===================================================== -->
-        <!-- COMMAND PANEL -->
-        <!-- ===================================================== -->
-
-        <section
-            class="command-panel">
-
-            <label
-                for="commandInput">
-
-                Command
-
-            </label>
-
-            <textarea
-                id="commandInput"
-                placeholder="Enter command..."></textarea>
-
-            <div
-                class="command-info">
-
-                <span id="characterCount">
-
-                    Characters : 0
-
-                </span>
-
-                <span id="shortcutInfo">
-
-                    Ctrl + Enter = Execute
-
-                </span>
-
-            </div>
-
-        </section>
-
-        <!-- ===================================================== -->
-        <!-- OUTPUT PANEL -->
-        <!-- ===================================================== -->
-
-        <section
-            class="output-panel">
-
-            <div
-                class="output-header">
-
-                <h2>
-
-                    Output
-
-                </h2>
-
-                <span
-                    id="executionTime">
-
-                    Ready
-
-                </span>
-
-            </div>
-
-            <pre
-                id="outputConsole">
-
-Awaiting command...
-
-            </pre>
-
-        </section>
-
+      <section class="output-panel" aria-label="Command output panel">
+        <div class="output-header">
+          <h2>Output</h2>
+          <span id="executionTime">Ready</span>
+        </div>
+        <pre id="outputConsole" aria-live="polite" aria-atomic="true">Awaiting command...</pre>
+      </section>
     </main>
 
-    <!-- ===================================================== -->
-    <!-- TOAST CONTAINER -->
-    <!-- ===================================================== -->
+    <div id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
-    <div
-        id="toastContainer">
+    <div id="modalContainer" role="dialog" aria-modal="true" aria-hidden="true"></div>
 
-    </div>
-
-    <!-- ===================================================== -->
-    <!-- MODAL CONTAINER -->
-    <!-- ===================================================== -->
-
-    <div
-        id="modalContainer">
-
-    </div>
-
-    <!-- ===================================================== -->
-    <!-- FOOTER -->
-    <!-- ===================================================== -->
-
-    <footer
-        class="app-footer">
-
-        <span>
-
-            AURA Production Console
-
-        </span>
-
-        <span
-            id="buildVersion">
-
-            Build :
-            2.0.0
-
-        </span>
-
+    <footer class="app-footer">
+      <span>AURA Production Console</span>
+      <span id="buildVersion">Build: 2.0.0</span>
     </footer>
+  </div>
 
-</div>
+  <noscript>JavaScript is required to run AURA Console.</noscript>
 
-<!-- ===================================================== -->
-<!-- USER INTERFACE -->
-<!-- ===================================================== -->
+  <!-- Foundation -->
+  <script src="assets/js/storage-engine.js" defer></script>
+  <script src="assets/js/task-manager.js" defer></script>
 
-<script
-    src="assets/js/aura-console-ui.js"></script>
+  <!-- Knowledge Layer -->
+  <script src="assets/js/knowledge-engine.js" defer></script>
+  <script src="assets/js/learning-engine.js" defer></script>
+  <script src="assets/js/knowledge-import-engine.js" defer></script>
 
-<!-- ===================================================== -->
-<!-- BOOTSTRAP -->
-<!-- ===================================================== -->
+  <!-- Memory Layer -->
+  <script src="assets/js/content-memory-engine.js" defer></script>
+  <script src="assets/js/pattern-extraction-engine.js" defer></script>
+  <script src="assets/js/memory-consolidation-engine.js" defer></script>
 
-<script
-    src="assets/js/aura-bootstrap.js"></script>
+  <!-- Fragment Layer -->
+  <script src="assets/js/knowledge-fragment-engine.js" defer></script>
 
-<!-- ===================================================== -->
-<!-- AURA ENGINES -->
-<!-- ===================================================== -->
-        
-<!-- Foundation -->
-<script src="assets/js/task-manager.js"></script>
-<script src="assets/js/storage-engine.js"></script>
+  <!-- Graph Layer -->
+  <script src="assets/js/knowledge-graph-engine.js" defer></script>
+  <script src="assets/js/semantic-network-engine.js" defer></script>
 
-<!-- Knowledge Layer -->
-<script src="assets/js/knowledge-engine.js"></script>
-<script src="assets/js/learning-engine.js"></script>
-<script src="assets/js/knowledge-import-engine.js"></script>
+  <!-- Learning Core -->
+  <script src="assets/js/learning-core-engine.js" defer></script>
 
-<!-- Memory Layer -->
-<script src="assets/js/content-memory-engine.js"></script>
-<script src="assets/js/pattern-extraction-engine.js"></script>
-<script src="assets/js/memory-consolidation-engine.js"></script>
+  <!-- Cognitive Layer -->
+  <script src="assets/js/reasoning-engine.js" defer></script>
+  <script src="assets/js/human-reasoning-engine.js" defer></script>
+  <script src="assets/js/self-critic-engine.js" defer></script>
+  <script src="assets/js/planner-engine.js" defer></script>
+  <script src="assets/js/insight-engine.js" defer></script>
 
-<!-- Fragment Layer -->
-<script src="assets/js/knowledge-fragment-engine.js"></script>
+  <!-- Creative Layer -->
+  <script src="assets/js/creative-mind-engine.js" defer></script>
 
-<!-- Graph Layer -->
-<script src="assets/js/knowledge-graph-engine.js"></script>
-<script src="assets/js/semantic-network-engine.js"></script>
+  <!-- Philosophy Layer -->
+  <script src="assets/js/philosophy-engine.js" defer></script>
 
-<!-- Learning Core -->
-<script src="assets/js/learning-core-engine.js"></script>
+  <!-- Question Answer Layer -->
+  <script src="assets/js/question-answer-engine.js" defer></script>
 
-<!-- Cognitive Layer -->
-<script src="assets/js/reasoning-engine.js"></script>
-<script src="assets/js/human-reasoning-engine.js"></script>
-<script src="assets/js/self-critic-engine.js"></script>
-<script src="assets/js/planner-engine.js"></script>
-<script src="assets/js/insight-engine.js"></script>
+  <!-- Comparison Layer -->
+  <script src="assets/js/comparison-engine.js" defer></script>
 
-<!-- Creative Layer -->
-<script src="assets/js/creative-mind-engine.js"></script>
+  <!-- Goal & Meta Layer -->
+  <script src="assets/js/goal-manager.js" defer></script>
+  <script src="assets/js/meta-learning-engine.js" defer></script>
+  <script src="assets/js/self-improvement-engine.js" defer></script>
 
-<!-- Philosophy Layer -->
-<script src="assets/js/philosophy-engine.js"></script>
-    
-<!-- Question Answer Layer -->
-<script src="assets/js/question-answer-engine.js"></script>
+  <!-- Semantic Search Layer -->
+  <script src="assets/js/embedding-engine.js" defer></script>
+  <script src="assets/js/vector-search-engine.js" defer></script>
 
-<!-- Comparison Layer -->
-<script src="assets/js/comparison-engine.js"></script>
+  <!-- Feedback Layer -->
+  <script src="assets/js/feedback-engine.js" defer></script>
 
-<!-- Goal & Meta Layer -->
-<script src="assets/js/goal-manager.js"></script>
-<script src="assets/js/meta-learning-engine.js"></script>
-<script src="assets/js/self-improvement-engine.js"></script>
+  <!-- Hindi Layer -->
+  <script src="assets/js/hindi-interaction-engine.js" defer></script>
+  <script src="assets/js/hindi-intent-engine.js" defer></script>
+  <script src="assets/js/hindi-command-router.js" defer></script>
 
-<!-- Semantic Search Layer -->
-<script src="assets/js/embedding-engine.js"></script>
-<script src="assets/js/vector-search-engine.js"></script>
+  <!-- Command Infrastructure -->
+  <script src="assets/js/command-manifest.js" defer></script>
+  <script src="assets/js/command-registry.js" defer></script>
 
-<!-- Feedback Layer -->
-<script src="assets/js/feedback-engine.js"></script>
+  <!-- Command Bootstraps -->
+  <script src="assets/js/command-bootstrap.js" defer></script>
+  <script src="assets/js/command-bootstrap-v2.js" defer></script>
+  <script src="assets/js/command-bootstrap-v3.js" defer></script>
+  <script src="assets/js/command-bootstrap-v4.js" defer></script>
+  <script src="assets/js/command-bootstrap-v5.js" defer></script>
+  <script src="assets/js/command-bootstrap-v6.js" defer></script>
+  <script src="assets/js/command-bootstrap-v7.js" defer></script>
+  <script src="assets/js/command-bootstrap-v8.js" defer></script>
 
-<!-- Hindi Layer -->
-<script src="assets/js/hindi-interaction-engine.js"></script>
-<script src="assets/js/hindi-intent-engine.js"></script>
-<script src="assets/js/hindi-command-router.js"></script>
+  <!-- Creative Commands -->
+  <script src="assets/js/creative-command-bootstrap.js" defer></script>
 
-<!-- Command Infrastructure -->
-<script src="assets/js/command-manifest.js"></script>
-<script src="assets/js/command-registry.js"></script>
+  <!-- Main Engine -->
+  <script src="assets/js/core-command-engine-v14.js" defer></script>
 
-<!-- Command Bootstraps -->
-<script src="assets/js/command-bootstrap.js"></script>
-<script src="assets/js/command-bootstrap-v2.js"></script>
-<script src="assets/js/command-bootstrap-v3.js"></script>
-<script src="assets/js/command-bootstrap-v4.js"></script>
-<script src="assets/js/command-bootstrap-v5.js"></script>
-<script src="assets/js/command-bootstrap-v6.js"></script>
-<script src="assets/js/command-bootstrap-v7.js"></script>
-<script src="assets/js/command-bootstrap-v8.js"></script>
+  <!-- Startup Orchestrator -->
+  <script src="assets/js/aura-bootstrap.js" defer></script>
 
-<!-- Creative Commands -->
-<script src="assets/js/creative-command-bootstrap.js"></script>
-
-<!-- Main Engine -->
-<script src="assets/js/core-command-engine-v14.js"></script>
-
+  <!-- UI Layer -->
+  <script src="assets/js/aura-console-ui.js" defer></script>
 </body>
 </html>
